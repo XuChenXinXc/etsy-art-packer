@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EtsyArtPacker - 5-in-1 Wall Art Ratio Resizer & 300 DPI Packager</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- JSZip for client-side ZIP packaging -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+    }
+    .mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col antialiased selection:bg-indigo-500 selection:text-white">
+
+  <!-- Header -->
+  <header class="border-b border-slate-800/80 bg-slate-900/50 backdrop-blur sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-500 via-indigo-600 to-sky-400 flex items-center justify-center font-black text-white text-lg shadow-lg shadow-indigo-500/20">
+          ⚡
+        </div>
+        <div>
+          <span class="font-bold text-lg text-white tracking-tight">EtsyArtPacker</span>
+          <span class="text-xs ml-2 px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 font-medium">POD Pro</span>
+        </div>
+      </div>
+      <div class="flex items-center gap-4 text-sm">
+        <span class="text-slate-400 hidden sm:inline-flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          100% Client-Side · Zero Upload
+        </span>
+        <button class="px-4 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-medium text-xs transition shadow-sm">
+          ★ Pro Bulk ($9.99)
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-5xl mx-auto px-6 py-12 flex-1 w-full">
+    <!-- Hero Banner -->
+    <div class="text-center max-w-2xl mx-auto mb-12">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-semibold mb-4">
+        ✨ Designed for Etsy & Print-on-Demand Sellers
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-4">
+        Turn 1 Image into <span class="bg-gradient-to-r from-indigo-400 to-sky-400 bg-clip-text text-transparent">5 Standard Ratios</span> at 300 DPI
+      </h1>
+      <p class="text-slate-400 text-base leading-relaxed">
+        Stop wasting 15 minutes manually resizing in Photoshop. Upload your artwork, auto-crop to 5 essential frame ratios, inject true 300 DPI metadata, and package into an Etsy-ready ZIP.
+      </p>
+    </div>
+
+    <!-- Upload Box -->
+    <div id="drop-zone" class="border-2 border-dashed border-slate-700 hover:border-indigo-500 rounded-3xl p-10 text-center bg-slate-900/40 hover:bg-slate-900/70 transition-all cursor-pointer relative group mb-8 shadow-xl">
+      <input type="file" id="file-input" accept="image/png, image/jpeg, image/webp" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full">
+      <div class="flex flex-col items-center gap-4">
+        <div class="w-16 h-16 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform text-indigo-400">
+          🖼️
+        </div>
+        <div>
+          <p class="text-lg font-semibold text-slate-200 mb-1">
+            Drag & drop your master artwork here, or <span class="text-indigo-400 underline decoration-indigo-400/50">browse</span>
+          </p>
+          <p class="text-xs text-slate-500">Supports JPG, PNG, WEBP up to 50MB · High-res artwork recommended</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Workspace (Hidden until image selected) -->
+    <div id="workspace" class="hidden space-y-8">
+      
+      <!-- Source Info Card -->
+      <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="flex items-center gap-5 w-full md:w-auto">
+          <img id="preview-thumb" class="w-20 h-20 rounded-xl object-cover border border-slate-700 bg-slate-950 shrink-0" src="" alt="Thumbnail">
+          <div>
+            <h3 id="src-name" class="font-bold text-slate-100 text-base truncate max-w-xs sm:max-w-md">image.jpg</h3>
+            <div class="flex items-center gap-3 mt-1.5 text-xs text-slate-400 mono">
+              <span id="src-dimensions">0 × 0 px</span>
+              <span>•</span>
+              <span id="src-size">0 MB</span>
+              <span>•</span>
+              <span id="src-ratio" class="text-indigo-400">Ratio: --</span>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center gap-3 w-full md:w-auto justify-end">
+          <label class="text-xs text-slate-400 font-medium">Crop Strategy:</label>
+          <select id="crop-strategy" class="bg-slate-800 border border-slate-700 rounded-lg text-xs text-slate-200 px-3 py-2 outline-none focus:border-indigo-500 font-medium">
+            <option value="center">Smart Center Crop (Recommended)</option>
+            <option value="fit">Contain with Margin (No Cut)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- 5-in-1 Standard Ratio Grid -->
+      <div>
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-base font-bold text-slate-200 flex items-center gap-2">
+            <span>5 Essential Etsy Print Ratios</span>
+            <span class="text-xs font-normal text-slate-500">(All auto-configured at 300 DPI)</span>
+          </h2>
+          <span class="text-xs text-indigo-400 font-medium">Includes Free "Printing-Guide.txt"</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="ratios-container">
+          <!-- 2:3 Ratio -->
+          <div class="ratio-card bg-slate-900/50 border border-slate-800 rounded-2xl p-5 hover:border-slate-700 transition">
+            <div class="flex justify-between items-start mb-3">
+              <div>
+                <span class="text-xs font-bold px-2 py-0.5 rounded bg-indigo-500/15 text-indigo-400 border border-indigo-500/20">2:3 Ratio</span>
+                <h4 class="text-sm font-semibold text-slate-200 mt-2">Large Poster Ratio</h4>
+              </div>
+              <span class="text-xs text-emerald-400 font-medium bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">300 DPI</span>
+            </div>
+            <p class="text-xs text-slate-400 mb-3">Prints: 4x6", 8x12", 12x18", 16x24", 20x30", 24x36"</p>
+            <div class="text-xs text-slate-500 mono bg-slate-950/60 rounded-lg p-2.5 border border-slate-800/80">
+              Output: <span id="dim-2-3" class="text-slate-300">Calculating...</span>
+            </div>
+          </div>
+
+          <!-- 3:4 Ratio -->
+          <div class="ratio-card bg-slate-900/50 border border-slate-800 rounded-2xl p-5 hover:border-slate-700 transition">
+            <div class="flex justify-between items-start mb-3">
+              <div>
+                <span class="text-xs font-bold px-2 py-0.5 rounded bg-sky-500/15 text-sky-400 border border-sky-500/20">3:4 Ratio</span>
+                <h4 class="text-sm font-semibold text-slate-200 mt-2">Standard Gallery Ratio</h4>
+              </div>
+              <span class="text-xs text-emerald-400 font-medium bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">300 DPI</span>
+            </div>
+            <p class="text-xs text-slate-400 mb-3">Prints: 6x8", 9x12", 12x16", 15x20", 18x24"</p>
+            <div class="text-xs text-slate-500 mono bg-slate-950/60 rounded-lg p-2.5 border border-slate-800/80">
+              Output: <span id="dim-3-4" class="text-slate-300">Calculating...</span>
+            </div>
+          </div>
+
+          <!-- 4:5 Ratio -->
+          <div class="ratio-card bg-slate-900/50 border border-slate-800 rounded-2xl p-5 hover:border-slate-700 transition">
+            <div class="flex justify-between items-start mb-3">
+              <div>
+                <span class="text-xs font-bold px-2 py-0.5 rounded bg-purple-500/15 text-purple-400 border border-purple-500/20">4:5 Ratio</span>
+                <h4 class="text-sm font-semibold text-slate-200 mt-2">Home & Photo Frame</h4>
+              </div>
+              <span class="text-xs text-emerald-400 font-medium bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">300 DPI</span>
+            </div>
+            <p class="text-xs text-slate-400 mb-3">Prints: 4x5", 8x10", 12x15", 16x20" (IKEA Frames)</p>
+            <div class="text-xs text-slate-500 mono bg-slate-950/60 rounded-lg p-2.5 border border-slate-800/80">
+              Output: <span id="dim-4-5" class="text-slate-300">Calculating...</span>
+            </div>
+          </div>
+
+          <!-- ISO Paper Ratio -->
+          <div class="ratio-card bg-slate-900/50 border border-slate-800 rounded-2xl p-5 hover:border-slate-700 transition">
+            <div class="flex justify-between items-start mb-3">
+              <div>
+                <span class="text-xs font-bold px-2 py-0.5 rounded bg-amber-500/15 text-amber-400 border border-amber-500/20">ISO Standard</span>
+                <h4 class="text-sm font-semibold text-slate-200 mt-2">International A-Series</h4>
+              </div>
+              <span class="text-xs text-emerald-400 font-medium bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">300 DPI</span>
+            </div>
+            <p class="text-xs text-slate-400 mb-3">Prints: A1, A2, A3, A4, A5 (Europe, UK, Worldwide)</p>
+            <div class="text-xs text-slate-500 mono bg-slate-950/60 rounded-lg p-2.5 border border-slate-800/80">
+              Output: <span id="dim-iso" class="text-slate-300">Calculating...</span>
+            </div>
+          </div>
+
+          <!-- 11:14 Ratio -->
+          <div class="ratio-card bg-slate-900/50 border border-slate-800 rounded-2xl p-5 hover:border-slate-700 transition">
+            <div class="flex justify-between items-start mb-3">
+              <div>
+                <span class="text-xs font-bold px-2 py-0.5 rounded bg-rose-500/15 text-rose-400 border border-rose-500/20">11:14 Ratio</span>
+                <h4 class="text-sm font-semibold text-slate-200 mt-2">Classic Portrait Size</h4>
+              </div>
+              <span class="text-xs text-emerald-400 font-medium bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">300 DPI</span>
+            </div>
+            <p class="text-xs text-slate-400 mb-3">Prints: 11x14" (US Standard Wall Frame)</p>
+            <div class="text-xs text-slate-500 mono bg-slate-950/60 rounded-lg p-2.5 border border-slate-800/80">
+              Output: <span id="dim-11-14" class="text-slate-300">Calculating...</span>
+            </div>
+          </div>
+
+          <!-- ZIP Bundle Card -->
+          <div class="bg-gradient-to-br from-indigo-950/40 to-slate-900/80 border border-indigo-500/30 rounded-2xl p-5 flex flex-col justify-between">
+            <div>
+              <span class="text-xs font-bold px-2 py-0.5 rounded bg-indigo-500 text-white">ZIP Bundle</span>
+              <h4 class="text-sm font-semibold text-slate-100 mt-2">Etsy Delivery Package</h4>
+              <p class="text-xs text-slate-400 mt-1">Contains 5 high-res 300 DPI JPGs + 1 Customer Print Size Guide PDF/TXT.</p>
+            </div>
+            <div class="text-xs text-indigo-300 font-medium mt-3">
+              ✓ Ready to upload directly to Etsy Listing
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Button & Progress -->
+      <div class="pt-4 flex flex-col items-center gap-4">
+        <button id="btn-process" class="w-full sm:w-auto px-10 py-4 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-base transition-all shadow-xl shadow-indigo-600/30 hover:shadow-indigo-600/50 flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed">
+          <span id="btn-icon">⚡</span>
+          <span id="btn-text">Generate & Download Etsy 300 DPI ZIP (5 Files)</span>
+        </button>
+        <p id="status-text" class="text-xs text-slate-500 mono h-4"></p>
+      </div>
+
+    </div>
+
+    <!-- Features / Value Prop -->
+    <div class="mt-20 border-t border-slate-800/80 pt-12 grid grid-cols-1 md:grid-cols-3 gap-8 text-center sm:text-left">
+      <div class="space-y-2">
+        <div class="text-indigo-400 text-xl font-bold">01. True 300 DPI Injection</div>
+        <p class="text-xs text-slate-400 leading-relaxed">
+          Injects genuine JFIF 300 DPI tags directly into the binary header, completely satisfying Printify, Gelato, and Etsy print lab requirements.
+        </p>
+      </div>
+      <div class="space-y-2">
+        <div class="text-sky-400 text-xl font-bold">02. 100% Client-Side Privacy</div>
+        <p class="text-xs text-slate-400 leading-relaxed">
+          Processed entirely on your browser via Canvas and Web Workers. Your high-value digital art is never sent to any remote server.
+        </p>
+      </div>
+      <div class="space-y-2">
+        <div class="text-emerald-400 text-xl font-bold">03. Automated Size Guide</div>
+        <p class="text-xs text-slate-400 leading-relaxed">
+          Automatically includes a professional "Print Size Cheat Sheet" inside your ZIP, helping your buyers choose the right frame effortlessly.
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-800/60 py-8 text-center text-xs text-slate-600">
+    <p>© 2026 EtsyArtPacker. Built for independent creators and print-on-demand sellers.</p>
+  </footer>
+
+  <!-- Core JavaScript Pipeline -->
+  <script>
+    // Standard Ratio Configurations (Width : Height, based on standard vertical portrait orientation)
+    const RATIOS = [
+      { id: "2-3", name: "Ratio_2x3", w: 2, h: 3, maxLong: 7200, label: "2:3 Ratio (up to 24x36\")" },
+      { id: "3-4", name: "Ratio_3x4", w: 3, h: 4, maxLong: 7200, label: "3:4 Ratio (up to 18x24\")" },
+      { id: "4-5", name: "Ratio_4x5", w: 4, h: 5, maxLong: 6000, label: "4:5 Ratio (up to 16x20\")" },
+      { id: "iso", name: "ISO_A1_A4", w: 1, h: 1.4142, maxLong: 7016, label: "ISO A-Series (A1 to A5)" },
+      { id: "11-14", name: "Ratio_11x14", w: 11, h: 14, maxLong: 4200, label: "11:14 Ratio (up to 11x14\")" }
+    ];
+
+    let sourceImage = null;
+    let sourceFileName = "artwork";
+
+    const dropZone = document.getElementById("drop-zone");
+    const fileInput = document.getElementById("file-input");
+    const workspace = document.getElementById("workspace");
+    const previewThumb = document.getElementById("preview-thumb");
+    const srcName = document.getElementById("src-name");
+    const srcDimensions = document.getElementById("src-dimensions");
+    const srcSize = document.getElementById("src-size");
+    const srcRatio = document.getElementById("src-ratio");
+    const btnProcess = document.getElementById("btn-process");
+    const btnText = document.getElementById("btn-text");
+    const statusText = document.getElementById("status-text");
+
+    // File selection handler
+    fileInput.addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (file) handleFile(file);
+    });
+
+    // Drag and drop handlers
+    dropZone.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      dropZone.classList.add("border-indigo-500", "bg-slate-900/80");
+    });
+
+    dropZone.addEventListener("dragleave", () => {
+      dropZone.classList.remove("border-indigo-500", "bg-slate-900/80");
+    });
+
+    dropZone.addEventListener("drop", (e) => {
+      e.preventDefault();
+      dropZone.classList.remove("border-indigo-500", "bg-slate-900/80");
+      if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+        handleFile(e.dataTransfer.files[0]);
+      }
+    });
+
+    function handleFile(file) {
+      sourceFileName = file.name.replace(/\.[^/.]+$/, "");
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const img = new Image();
+        img.onload = () => {
+          sourceImage = img;
+          workspace.classList.remove("hidden");
+          previewThumb.src = event.target.result;
+          srcName.textContent = file.name;
+          srcDimensions.textContent = `${img.width} × ${img.height} px`;
+          srcSize.textContent = `${(file.size / (1024 * 1024)).toFixed(2)} MB`;
+          const currentRatio = (img.width / img.height).toFixed(2);
+          srcRatio.textContent = `Aspect Ratio: ${currentRatio}`;
+
+          updateCalculatedDimensions(img.width, img.height);
+          workspace.scrollIntoView({ behavior: 'smooth' });
+        };
+        img.src = event.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function updateCalculatedDimensions(srcW, srcH) {
+      const isPortrait = srcH >= srcW;
+
+      RATIOS.forEach(r => {
+        let targetW, targetH;
+        let aspect = r.w / r.h;
+        if (!isPortrait) aspect = 1 / aspect; // adapt for landscape
+
+        if (isPortrait) {
+          targetH = Math.min(srcH, r.maxLong);
+          targetW = Math.round(targetH * (r.w / r.h));
+        } else {
+          targetW = Math.min(srcW, r.maxLong);
+          targetH = Math.round(targetW * (r.w / r.h));
+        }
+
+        const el = document.getElementById(`dim-${r.id}`);
+        if (el) el.textContent = `${targetW} × ${targetH} px @ 300 DPI`;
+      });
+    }
+
+    // Helper: Smart Center Crop logic on HTML Canvas
+    function cropAndRender(img, targetW, targetH) {
+      const canvas = document.createElement("canvas");
+      canvas.width = targetW;
+      canvas.height = targetH;
+      const ctx = canvas.getContext("2d");
+
+      // High-quality image smoothing
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = "high";
+
+      const targetAspect = targetW / targetH;
+      const srcAspect = img.width / img.height;
+
+      let drawW, drawH, drawX, drawY;
+
+      if (srcAspect > targetAspect) {
+        // Source is wider than target: fit height, crop width
+        drawH = img.height;
+        drawW = img.height * targetAspect;
+        drawX = (img.width - drawW) / 2;
+        drawY = 0;
+      } else {
+        // Source is taller than target: fit width, crop height
+        drawW = img.width;
+        drawH = img.width / targetAspect;
+        drawX = 0;
+        drawY = (img.height - drawH) / 2;
+      }
+
+      ctx.drawImage(img, drawX, drawY, drawW, drawH, 0, 0, targetW, targetH);
+      return canvas;
+    }
+
+    // Binary JFIF Modifier to guarantee true 300 DPI metadata in JPEG output
+    function setDpiInJpeg(blob, dpi = 300) {
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = function() {
+          const arrayBuffer = this.result;
+          const view = new DataView(arrayBuffer);
+
+          // Check if valid JPEG (SOI marker 0xFFD8)
+          if (view.getUint16(0) !== 0xFFD8) {
+            resolve(blob);
+            return;
+          }
+
+          let offset = 2;
+          let jfifFound = false;
+
+          while (offset < view.byteLength - 4) {
+            const marker = view.getUint16(offset);
+            const length = view.getUint16(offset + 2);
+
+            // APP0 marker
+            if (marker === 0xFFE0) {
+              // Check "JFIF\0" identifier
+              const id = String.fromCharCode(
+                view.getUint8(offset + 4),
+                view.getUint8(offset + 5),
+                view.getUint8(offset + 6),
+                view.getUint8(offset + 7),
+                view.getUint8(offset + 8)
+              );
+
+              if (id === "JFIF\0") {
+                // units: 1 = dots per inch (DPI)
+                view.setUint8(offset + 11, 1);
+                // Xdensity (300)
+                view.setUint16(offset + 12, dpi);
+                // Ydensity (300)
+                view.setUint16(offset + 14, dpi);
+                jfifFound = true;
+                break;
+              }
+            }
+            offset += 2 + length;
+          }
+
+          resolve(new Blob([arrayBuffer], { type: "image/jpeg" }));
+        };
+        reader.readAsArrayBuffer(blob);
+      });
+    }
+
+    // Customer Cheat Sheet Guide
+    const PRINT_GUIDE_TEXT = `=====================================================
+ETSY CUSTOMER PRINTING SIZE CHEAT SHEET
+=====================================================
+Thank you for your purchase! Your digital download includes 
+5 high-resolution 300 DPI files suitable for dozens of frame sizes:
+
+1. FILE: 2x3_Ratio.jpg
+   Standard Poster & Large Gallery Frames:
+   - 4x6" (10x15cm)      - 12x18" (30x45cm)
+   - 8x12" (20x30cm)     - 16x24" (40x60cm)
+   - 20x30" (50x75cm)    - 24x36" (60x90cm)
+
+2. FILE: 3x4_Ratio.jpg
+   Standard Wall Frame Ratio:
+   - 6x8" (15x20cm)      - 12x16" (30x40cm)
+   - 9x12" (22x30cm)     - 15x20" (38x50cm)
+   - 18x24" (45x60cm)
+
+3. FILE: 4x5_Ratio.jpg
+   Home Decor & IKEA Frames:
+   - 4x5" (10x12cm)      - 12x15" (30x38cm)
+   - 8x10" (20x25cm)     - 16x20" (40x50cm)
+
+4. FILE: ISO_Series.jpg
+   International Paper Sizes (UK, Europe, Australia):
+   - A1 (59.4 x 84.1cm)  - A3 (29.7 x 42cm)
+   - A2 (42 x 59.4cm)    - A4 (21 x 29.7cm)
+   - A5 (14.8 x 21cm)
+
+5. FILE: 11x14_Ratio.jpg
+   Popular Standalone Frame Size:
+   - 11x14" (28x35cm)
+
+=====================================================
+HOW TO PRINT:
+- At Home: Use premium heavyweight matte/satin photo paper.
+- Online Labs: Upload directly to Printify, Shutterfly, Mpix, Walgreens.
+- Local Print Shop: Save files to a USB drive and take to Staples or FedEx.
+=====================================================`;
+
+    // Process & ZIP Bundle Generator
+    btnProcess.addEventListener("click", async () => {
+      if (!sourceImage) return;
+
+      btnProcess.disabled = true;
+      btnText.textContent = "Processing 300 DPI Ratios...";
+      statusText.textContent = "Initializing canvas & worker...";
+
+      try {
+        const zip = new JSZip();
+        const isPortrait = sourceImage.height >= sourceImage.width;
+
+        // Process each ratio sequentially
+        for (let i = 0; i < RATIOS.length; i++) {
+          const r = RATIOS[i];
+          statusText.textContent = `Cropping & Injecting 300 DPI for ${r.label} (${i + 1}/${RATIOS.length})...`;
+
+          let targetW, targetH;
+          if (isPortrait) {
+            targetH = Math.min(sourceImage.height, r.maxLong);
+            targetW = Math.round(targetH * (r.w / r.h));
+          } else {
+            targetW = Math.min(sourceImage.width, r.maxLong);
+            targetH = Math.round(targetW * (r.w / r.h));
+          }
+
+          const canvas = cropAndRender(sourceImage, targetW, targetH);
+          
+          // Convert canvas to JPEG blob (quality 0.95)
+          const rawBlob = await new Promise((res) => canvas.toBlob(res, "image/jpeg", 0.95));
+          
+          // Inject 300 DPI JFIF metadata
+          const dpiBlob = await setDpiInJpeg(rawBlob, 300);
+
+          // Add to zip
+          const fileName = `${sourceFileName}_${r.name}_300DPI.jpg`;
+          zip.file(fileName, dpiBlob);
+        }
+
+        // Add Customer Guide
+        zip.file("Printing_Size_Guide.txt", PRINT_GUIDE_TEXT);
+
+        statusText.textContent = "Compressing into ZIP archive...";
+        btnText.textContent = "Creating ZIP Bundle...";
+
+        const zipBlob = await zip.generateAsync({ type: "blob" }, (metadata) => {
+          statusText.textContent = `Packaging ZIP: ${metadata.percent.toFixed(0)}% completed`;
+        });
+
+        // Trigger instant browser download
+        const downloadUrl = URL.createObjectURL(zipBlob);
+        const a = document.createElement("a");
+        a.href = downloadUrl;
+        a.download = `${sourceFileName}_Etsy_Print_Pack.zip`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(downloadUrl);
+
+        statusText.textContent = "✓ Package downloaded successfully!";
+        btnText.textContent = "Downloaded! Process Another?";
+      } catch (err) {
+        console.error(err);
+        statusText.textContent = "Error during processing: " + err.message;
+        btnText.textContent = "Failed. Try Again";
+      } finally {
+        btnProcess.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
