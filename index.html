@@ -94,7 +94,7 @@
 
     <!-- Upload Box -->
     <div id="drop-zone" class="border-2 border-dashed border-slate-700 hover:border-indigo-500 rounded-3xl p-10 text-center bg-slate-900/40 hover:bg-slate-900/70 transition-all cursor-pointer relative group mb-8 shadow-xl">
-      <input type="file" id="file-input" accept=".jpg,.jpeg,.png,.webp,image/*" class="hidden">
+      <input type="file" id="file-input" accept=".jpg,.jpeg,.png,.webp" class="hidden">
       <div class="flex flex-col items-center gap-4 pointer-events-none">
         <div class="w-16 h-16 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform text-indigo-400">
           🖼️
@@ -379,7 +379,16 @@
     });
 
     function handleFile(file) {
-      sourceFileName = file.name.replace(/\.[^/.]+$/, "");
+      if (!file) return;
+
+      // Restrict strictly to static image types (exclude animated GIF, SVG, etc.)
+      const validTypes = ["image/jpeg", "image/png", "image/webp"];
+      const ext = file.name.substring(file.name.lastIndexOf(".")).toLowerCase();
+      if (!validTypes.includes(file.type) && !['.jpg', '.jpeg', '.png', '.webp'].includes(ext)) {
+        alert("Please upload a static high-res artwork (JPG, PNG, or WEBP). Animated GIFs or unsupported formats are not suitable for wall art printing.");
+        fileInput.value = "";
+        return;
+      }
       const reader = new FileReader();
       reader.onload = (event) => {
         const img = new Image();
