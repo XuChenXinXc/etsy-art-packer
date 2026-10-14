@@ -350,7 +350,11 @@
     }
 
     // Click drop-zone to trigger native file picker reliably
-    dropZone.addEventListener("click", () => {
+    dropZone.addEventListener("click", (e) => {
+      // Prevent double trigger if clicked directly on input or child
+      if (e.target === fileInput) return;
+      // Reset input value before open to ensure selecting the exact same file re-triggers 'change'
+      fileInput.value = "";
       fileInput.click();
     });
 
@@ -452,8 +456,8 @@
         const previewCanvas = document.getElementById(`preview-canvas-${r.id}`);
         if (!previewCanvas) return;
 
-        // Display miniature viewport size (e.g., 200px height)
-        let thumbH = 200;
+        // Ensure landscape orientation calculates correctly: targetW is wide, targetH is short
+        let thumbH = 140;
         let thumbW = isPortrait ? Math.round(thumbH * (r.w / r.h)) : Math.round(thumbH * (r.h / r.w));
 
         previewCanvas.width = thumbW;
@@ -698,6 +702,7 @@ HOW TO PRINT:
             targetH = Math.min(sourceImage.height, r.maxLong);
             targetW = Math.round(targetH * (r.w / r.h));
           } else {
+            // Landscape orientation: targetW is long edge, targetH is calculated from ratio
             targetW = Math.min(sourceImage.width, r.maxLong);
             targetH = Math.round(targetW * (r.w / r.h));
           }
@@ -705,7 +710,12 @@ HOW TO PRINT:
           const canvas = cropAndRender(sourceImage, targetW, targetH, selectedStrategy);
           
           // Convert canvas to JPEG blob (quality 0.95)
-          const rawBlob = await new Promise((res) => canvas.toBlob(res, "image/jpeg", 0.95));
+          const rawBlob = await new Promise((res, rej) => {
+          canvas.toBlob((b) => {
+            if (b) res(b);
+            else rej(new Error(`Failed to encode image for ${r.label}`));
+          }, "image/jpeg", 0.95);
+        });
           
           // Immediately release canvas graphics memory
           canvas.width = 0;
