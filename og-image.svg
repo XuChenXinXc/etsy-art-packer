@@ -60,7 +60,7 @@
     <rect x="340" y="0" width="310" height="120" rx="20" fill="rgba(30,41,59,0.5)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
     <text x="364" y="45" font-family="-apple-system,sans-serif" font-size="20" font-weight="700" fill="#34d399">🖨️ True 300 DPI</text>
     <text x="364" y="78" font-family="-apple-system,sans-serif" font-size="14" fill="#94a3b8">JFIF APP0 Binary Header Injection</text>
-    <text x="364" y="98" font-family="-apple-system,sans-serif" font-size="13" fill="#64748b">Accepted by Printify, Gelato & Labs</text>
+    <text x="364" y="98" font-family="-apple-system,sans-serif" font-size="13" fill="#64748b">Accepted by Printify, Gelato &amp; Labs</text>
 
     <!-- Card 3 -->
     <rect x="680" y="0" width="310" height="120" rx="20" fill="rgba(30,41,59,0.5)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
