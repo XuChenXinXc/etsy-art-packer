@@ -111,9 +111,17 @@ Deploy to modern serverless edge platforms with a single click or Git push:
 
 ---
 
-## 📄 License
+## 📄 License & Ownership
 
-Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for more information.
+Distributed under the **MIT License**. Copyright (c) 2026 **[XuChenXinXc](https://github.com/XuChenXinXc)**. See [`LICENSE`](LICENSE) for details.
+
+---
+
+## ☕ Support the Developer
+
+If EtsyArtPacker saves you hours of resizing and formatting:
+- ⭐️ **Star this repository** to help other creators discover it.
+- ☕ **[Buy Me a Coffee](https://buymeacoffee.com/XuChenXinXc)** to support ongoing maintenance and new features.
 
 ---
 
