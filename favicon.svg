@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366f1" />
+      <stop offset="50%" stop-color="#4f46e5" />
+      <stop offset="100%" stop-color="#38bdf8" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  <!-- Background Rounded Squircle -->
+  <rect width="128" height="128" rx="28" fill="url(#bg)" />
+  <!-- Central Icon: High-Energy Bolt / Ratio Transformer -->
+  <path d="M72 16 L28 72 L60 72 L52 112 L100 56 L68 56 Z" 
+        fill="#ffffff" 
+        filter="url(#shadow)"
+        stroke="#ffffff" 
+        stroke-width="2" 
+        stroke-linejoin="round"/>
+</svg>
