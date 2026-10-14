@@ -151,77 +151,102 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="ratios-container">
           <!-- 2:3 Ratio -->
-          <div class="ratio-card bg-slate-900/50 border border-slate-800 rounded-2xl p-5 hover:border-slate-700 transition">
-            <div class="flex justify-between items-start mb-3">
-              <div>
+          <div class="ratio-card bg-slate-900/50 border border-slate-800 rounded-2xl p-4 hover:border-slate-700 transition flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-start mb-2">
                 <span class="text-xs font-bold px-2 py-0.5 rounded bg-indigo-500/15 text-indigo-400 border border-indigo-500/20">2:3 Ratio</span>
-                <h4 class="text-sm font-semibold text-slate-200 mt-2">Large Poster Ratio</h4>
+                <span class="text-xs text-emerald-400 font-medium bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">300 DPI</span>
               </div>
-              <span class="text-xs text-emerald-400 font-medium bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">300 DPI</span>
+              <h4 class="text-sm font-semibold text-slate-200">Large Poster Ratio</h4>
+              <p class="text-xs text-slate-400 my-2">Prints: 4x6", 8x12", 12x18", 16x24", 24x36"</p>
             </div>
-            <p class="text-xs text-slate-400 mb-3">Prints: 4x6", 8x12", 12x18", 16x24", 20x30", 24x36"</p>
-            <div class="text-xs text-slate-500 mono bg-slate-950/60 rounded-lg p-2.5 border border-slate-800/80">
-              Output: <span id="dim-2-3" class="text-slate-300">Calculating...</span>
+            <div>
+              <div class="w-full h-36 bg-slate-950 rounded-xl border border-slate-800 flex items-center justify-center overflow-hidden mb-2 relative">
+                <canvas id="preview-canvas-2-3" class="max-h-full max-w-full object-contain shadow"></canvas>
+              </div>
+              <div class="text-[11px] text-slate-400 mono bg-slate-950/60 rounded-lg p-2 border border-slate-800/80 text-center">
+                <span id="dim-2-3">Calculating...</span>
+              </div>
             </div>
           </div>
 
           <!-- 3:4 Ratio -->
-          <div class="ratio-card bg-slate-900/50 border border-slate-800 rounded-2xl p-5 hover:border-slate-700 transition">
-            <div class="flex justify-between items-start mb-3">
-              <div>
+          <div class="ratio-card bg-slate-900/50 border border-slate-800 rounded-2xl p-4 hover:border-slate-700 transition flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-start mb-2">
                 <span class="text-xs font-bold px-2 py-0.5 rounded bg-sky-500/15 text-sky-400 border border-sky-500/20">3:4 Ratio</span>
-                <h4 class="text-sm font-semibold text-slate-200 mt-2">Standard Gallery Ratio</h4>
+                <span class="text-xs text-emerald-400 font-medium bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">300 DPI</span>
               </div>
-              <span class="text-xs text-emerald-400 font-medium bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">300 DPI</span>
+              <h4 class="text-sm font-semibold text-slate-200">Standard Gallery Ratio</h4>
+              <p class="text-xs text-slate-400 my-2">Prints: 6x8", 9x12", 12x16", 18x24"</p>
             </div>
-            <p class="text-xs text-slate-400 mb-3">Prints: 6x8", 9x12", 12x16", 15x20", 18x24"</p>
-            <div class="text-xs text-slate-500 mono bg-slate-950/60 rounded-lg p-2.5 border border-slate-800/80">
-              Output: <span id="dim-3-4" class="text-slate-300">Calculating...</span>
+            <div>
+              <div class="w-full h-36 bg-slate-950 rounded-xl border border-slate-800 flex items-center justify-center overflow-hidden mb-2 relative">
+                <canvas id="preview-canvas-3-4" class="max-h-full max-w-full object-contain shadow"></canvas>
+              </div>
+              <div class="text-[11px] text-slate-400 mono bg-slate-950/60 rounded-lg p-2 border border-slate-800/80 text-center">
+                <span id="dim-3-4">Calculating...</span>
+              </div>
             </div>
           </div>
 
           <!-- 4:5 Ratio -->
-          <div class="ratio-card bg-slate-900/50 border border-slate-800 rounded-2xl p-5 hover:border-slate-700 transition">
-            <div class="flex justify-between items-start mb-3">
-              <div>
+          <div class="ratio-card bg-slate-900/50 border border-slate-800 rounded-2xl p-4 hover:border-slate-700 transition flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-start mb-2">
                 <span class="text-xs font-bold px-2 py-0.5 rounded bg-purple-500/15 text-purple-400 border border-purple-500/20">4:5 Ratio</span>
-                <h4 class="text-sm font-semibold text-slate-200 mt-2">Home & Photo Frame</h4>
+                <span class="text-xs text-emerald-400 font-medium bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">300 DPI</span>
               </div>
-              <span class="text-xs text-emerald-400 font-medium bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">300 DPI</span>
+              <h4 class="text-sm font-semibold text-slate-200">Home & IKEA Frame</h4>
+              <p class="text-xs text-slate-400 my-2">Prints: 4x5", 8x10", 12x15", 16x20"</p>
             </div>
-            <p class="text-xs text-slate-400 mb-3">Prints: 4x5", 8x10", 12x15", 16x20" (IKEA Frames)</p>
-            <div class="text-xs text-slate-500 mono bg-slate-950/60 rounded-lg p-2.5 border border-slate-800/80">
-              Output: <span id="dim-4-5" class="text-slate-300">Calculating...</span>
+            <div>
+              <div class="w-full h-36 bg-slate-950 rounded-xl border border-slate-800 flex items-center justify-center overflow-hidden mb-2 relative">
+                <canvas id="preview-canvas-4-5" class="max-h-full max-w-full object-contain shadow"></canvas>
+              </div>
+              <div class="text-[11px] text-slate-400 mono bg-slate-950/60 rounded-lg p-2 border border-slate-800/80 text-center">
+                <span id="dim-4-5">Calculating...</span>
+              </div>
             </div>
           </div>
 
           <!-- ISO Paper Ratio -->
-          <div class="ratio-card bg-slate-900/50 border border-slate-800 rounded-2xl p-5 hover:border-slate-700 transition">
-            <div class="flex justify-between items-start mb-3">
-              <div>
+          <div class="ratio-card bg-slate-900/50 border border-slate-800 rounded-2xl p-4 hover:border-slate-700 transition flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-start mb-2">
                 <span class="text-xs font-bold px-2 py-0.5 rounded bg-amber-500/15 text-amber-400 border border-amber-500/20">ISO Standard</span>
-                <h4 class="text-sm font-semibold text-slate-200 mt-2">International A-Series</h4>
+                <span class="text-xs text-emerald-400 font-medium bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">300 DPI</span>
               </div>
-              <span class="text-xs text-emerald-400 font-medium bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">300 DPI</span>
+              <h4 class="text-sm font-semibold text-slate-200">International A-Series</h4>
+              <p class="text-xs text-slate-400 my-2">Prints: A1, A2, A3, A4, A5</p>
             </div>
-            <p class="text-xs text-slate-400 mb-3">Prints: A1, A2, A3, A4, A5 (Europe, UK, Worldwide)</p>
-            <div class="text-xs text-slate-500 mono bg-slate-950/60 rounded-lg p-2.5 border border-slate-800/80">
-              Output: <span id="dim-iso" class="text-slate-300">Calculating...</span>
+            <div>
+              <div class="w-full h-36 bg-slate-950 rounded-xl border border-slate-800 flex items-center justify-center overflow-hidden mb-2 relative">
+                <canvas id="preview-canvas-iso" class="max-h-full max-w-full object-contain shadow"></canvas>
+              </div>
+              <div class="text-[11px] text-slate-400 mono bg-slate-950/60 rounded-lg p-2 border border-slate-800/80 text-center">
+                <span id="dim-iso">Calculating...</span>
+              </div>
             </div>
           </div>
 
           <!-- 11:14 Ratio -->
-          <div class="ratio-card bg-slate-900/50 border border-slate-800 rounded-2xl p-5 hover:border-slate-700 transition">
-            <div class="flex justify-between items-start mb-3">
-              <div>
+          <div class="ratio-card bg-slate-900/50 border border-slate-800 rounded-2xl p-4 hover:border-slate-700 transition flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-start mb-2">
                 <span class="text-xs font-bold px-2 py-0.5 rounded bg-rose-500/15 text-rose-400 border border-rose-500/20">11:14 Ratio</span>
-                <h4 class="text-sm font-semibold text-slate-200 mt-2">Classic Portrait Size</h4>
+                <span class="text-xs text-emerald-400 font-medium bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">300 DPI</span>
               </div>
-              <span class="text-xs text-emerald-400 font-medium bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">300 DPI</span>
+              <h4 class="text-sm font-semibold text-slate-200">Classic Portrait Size</h4>
+              <p class="text-xs text-slate-400 my-2">Prints: 11x14" (US Wall Frame)</p>
             </div>
-            <p class="text-xs text-slate-400 mb-3">Prints: 11x14" (US Standard Wall Frame)</p>
-            <div class="text-xs text-slate-500 mono bg-slate-950/60 rounded-lg p-2.5 border border-slate-800/80">
-              Output: <span id="dim-11-14" class="text-slate-300">Calculating...</span>
+            <div>
+              <div class="w-full h-36 bg-slate-950 rounded-xl border border-slate-800 flex items-center justify-center overflow-hidden mb-2 relative">
+                <canvas id="preview-canvas-11-14" class="max-h-full max-w-full object-contain shadow"></canvas>
+              </div>
+              <div class="text-[11px] text-slate-400 mono bg-slate-950/60 rounded-lg p-2 border border-slate-800/80 text-center">
+                <span id="dim-11-14">Calculating...</span>
+              </div>
             </div>
           </div>
 
@@ -374,6 +399,7 @@
           srcRatio.textContent = `Aspect Ratio: ${currentRatio}`;
 
           updateCalculatedDimensions(img.width, img.height);
+          renderAllLivePreviews();
           workspace.scrollIntoView({ behavior: 'smooth' });
         };
         img.src = event.target.result;
@@ -399,6 +425,85 @@
 
         const el = document.getElementById(`dim-${r.id}`);
         if (el) el.textContent = `${targetW} × ${targetH} px @ 300 DPI`;
+      });
+    }
+
+    // Listen to Crop Strategy change and re-render previews immediately
+    const cropStrategySelect = document.getElementById("crop-strategy");
+    if (cropStrategySelect) {
+      cropStrategySelect.addEventListener("change", () => {
+        if (sourceImage) {
+          renderAllLivePreviews();
+        }
+      });
+    }
+
+    // Live Preview Renderer: Renders real-time thumbnail into each card's canvas
+    function renderAllLivePreviews() {
+      if (!sourceImage) return;
+      const strategy = cropStrategySelect ? cropStrategySelect.value : "center";
+      const isPortrait = sourceImage.height >= sourceImage.width;
+
+      RATIOS.forEach(r => {
+        const previewCanvas = document.getElementById(`preview-canvas-${r.id}`);
+        if (!previewCanvas) return;
+
+        // Display miniature viewport size (e.g., 200px height)
+        let thumbH = 200;
+        let thumbW = isPortrait ? Math.round(thumbH * (r.w / r.h)) : Math.round(thumbH * (r.h / r.w));
+
+        previewCanvas.width = thumbW;
+        previewCanvas.height = thumbH;
+        const pCtx = previewCanvas.getContext("2d");
+        pCtx.imageSmoothingEnabled = true;
+
+        if (strategy === "fit") {
+          // Fill background with border tone
+          try {
+            const sc = document.createElement("canvas");
+            sc.width = 1; sc.height = 1;
+            const sCtx = sc.getContext("2d");
+            sCtx.drawImage(sourceImage, 0, 0, 1, 1, 0, 0, 1, 1);
+            const p = sCtx.getImageData(0, 0, 1, 1).data;
+            pCtx.fillStyle = `rgb(${p[0]}, ${p[1]}, ${p[2]})`;
+          } catch(e) {
+            pCtx.fillStyle = "#1e293b";
+          }
+          pCtx.fillRect(0, 0, thumbW, thumbH);
+
+          const targetAspect = thumbW / thumbH;
+          const srcAspect = sourceImage.width / sourceImage.height;
+          let dW, dH, dX, dY;
+          if (srcAspect > targetAspect) {
+            dW = thumbW;
+            dH = thumbW / srcAspect;
+            dX = 0;
+            dY = (thumbH - dH) / 2;
+          } else {
+            dH = thumbH;
+            dW = thumbH * srcAspect;
+            dX = (thumbW - dW) / 2;
+            dY = 0;
+          }
+          pCtx.drawImage(sourceImage, 0, 0, sourceImage.width, sourceImage.height, dX, dY, dW, dH);
+        } else {
+          // Smart Center Crop
+          const targetAspect = thumbW / thumbH;
+          const srcAspect = sourceImage.width / sourceImage.height;
+          let sW, sH, sX, sY;
+          if (srcAspect > targetAspect) {
+            sH = sourceImage.height;
+            sW = sourceImage.height * targetAspect;
+            sX = (sourceImage.width - sW) / 2;
+            sY = 0;
+          } else {
+            sW = sourceImage.width;
+            sH = sourceImage.width / targetAspect;
+            sX = 0;
+            sY = (sourceImage.height - sH) / 2;
+          }
+          pCtx.drawImage(sourceImage, sX, sY, sW, sH, 0, 0, thumbW, thumbH);
+        }
       });
     }
 
