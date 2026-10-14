@@ -50,6 +50,64 @@
       font-family: 'JetBrains Mono', monospace;
     }
   </style>
+
+  <!-- AI 搜索引擎 (GEO) 与 Google 结构化实体标注 (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": ["SoftwareApplication", "WebApplication"],
+        "name": "EtsyArtPacker",
+        "description": "Free open-source in-browser tool for Etsy & POD sellers. Auto-crop artwork to 5 standard gallery ratios (2:3, 3:4, 4:5, ISO, 11:14), inject genuine 300 DPI metadata, and download an Etsy-ready ZIP in one click.",
+        "url": "https://etsy-art-packer.vercel.app/",
+        "applicationCategory": "DesignApplication, MultimediaApplication",
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires JavaScript. Works in any modern web browser.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock",
+          "description": "100% free and open-source. No account or payment required."
+        },
+        "featureList": [
+          "Auto-crop to 5 Etsy standard gallery ratios (2:3, 3:4, 4:5, ISO, 11:14)",
+          "Genuine 300 DPI EXIF/JFIF metadata injection via canvas-to-blob",
+          "100% client-side processing for full privacy (no image upload)",
+          "Fast bulk ZIP archive packaging with JSZip",
+          "Dark mode / Light mode support with zero-dependency vanilla JS"
+        ],
+        "license": "https://opensource.org/licenses/MIT",
+        "author": {
+          "@type": "Organization",
+          "name": "EtsyArtPacker"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Is EtsyArtPacker free to use for commercial Etsy listings?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, EtsyArtPacker is 100% free and open-source under the MIT license, for both personal and commercial digital art sellers."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Are my images uploaded to any remote server?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. All cropping, resizing, 300 DPI embedding, and ZIP creation run entirely in your local browser using HTML5 Canvas and Web APIs. Your artwork never leaves your computer."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col antialiased selection:bg-indigo-500 selection:text-white">
 
@@ -82,16 +140,28 @@
   <!-- Main Content -->
   <main class="max-w-5xl mx-auto px-6 py-12 flex-1 w-full">
     <!-- Hero Banner -->
-    <div class="text-center max-w-2xl mx-auto mb-12">
+    <div class="text-center max-w-2xl mx-auto mb-10">
       <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-semibold mb-4">
         ✨ Designed for Etsy & Print-on-Demand Sellers
       </div>
       <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-4">
         Turn 1 Image into <span class="bg-gradient-to-r from-indigo-400 to-sky-400 bg-clip-text text-transparent">5 Standard Ratios</span> at 300 DPI
       </h1>
-      <p class="text-slate-400 text-base leading-relaxed">
-        Stop wasting 15 minutes manually resizing in Photoshop. Upload your artwork, auto-crop to 5 essential frame ratios, inject true 300 DPI metadata, and package into an Etsy-ready ZIP.
+      <p class="text-slate-400 text-base leading-relaxed mb-5">
+        Stop losing Etsy sales to bad print sizing. Upload your master artwork, auto-crop to 5 essential frame ratios, inject genuine 300 DPI metadata, and package into a shop-ready ZIP in 10 seconds.
       </p>
+      <!-- Trust & Risk Reversal Badges -->
+      <div class="flex flex-wrap items-center justify-center gap-4 text-xs font-medium text-slate-300">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-slate-900 border border-slate-800">
+          <span class="text-emerald-400">🛡️</span> 100% Client-Side (Zero Server Upload)
+        </span>
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-slate-900 border border-slate-800">
+          <span class="text-indigo-400">⚡</span> True 300 DPI Guaranteed
+        </span>
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-slate-900 border border-slate-800">
+          <span class="text-sky-400">✨</span> Free Forever (No Card Required)
+        </span>
+      </div>
     </div>
 
     <!-- Upload Box -->
