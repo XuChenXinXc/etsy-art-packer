@@ -117,15 +117,10 @@ Distributed under the **MIT License**. Copyright (c) 2026 **[XuChenXinXc](https:
 
 ---
 
-## ☕ Support the Developer
-
-If EtsyArtPacker saves you hours of resizing and formatting:
-- ⭐️ **Star this repository** to help other creators discover it.
-- ☕ **[Buy Me a Coffee](https://buymeacoffee.com/XuChenXinXc)** to support ongoing maintenance and new features.
-
----
-
 ## 🤝 Contributing
+
+Contributions, feature suggestions, and pull requests are warmly welcomed!  
+If you find this tool helpful for your digital product store, please consider giving this repository a ⭐️!
 
 Contributions, feature suggestions, and pull requests are warmly welcomed!  
 If you find this tool helpful for your digital product store, please consider giving this repository a ⭐️!
