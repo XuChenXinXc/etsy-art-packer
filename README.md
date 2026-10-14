@@ -1,55 +1,123 @@
-# EtsyArtPacker (Etsy 5-in-1 Wall Art Resizer & 300 DPI Packager)
+# EtsyArtPacker ⚡
 
-> **专为欧美 Etsy 卖家与按需印刷（Print-on-Demand / POD）创作者打造的 100% 免费轻量生产力工具。**  
-> 纯前端运行（Client-Side Only），无限制、无水印、保护隐私。通过精准 Google 搜索流量与 **Google AdSense 广告** 实现纯被动美金收益。
+[![Live Demo](https://img.shields.io/badge/demo-online-emerald.svg?style=flat-square)](https://etsy-art-packer.vercel.app/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
+[![Platform](https://img.shields.io/badge/Platform-Web%20%7C%20Client--Side-indigo.svg?style=flat-square)](https://etsy-art-packer.vercel.app/)
+[![Zero Upload](https://img.shields.io/badge/Privacy-100%25%20In--Browser-green.svg?style=flat-square)](https://etsy-art-packer.vercel.app/)
 
----
+> **EtsyArtPacker** is an open-source, client-side image processing utility engineered for Etsy digital art sellers and Print-on-Demand (POD) creators. It automatically transforms a single high-resolution artwork into the **5 standard gallery frame ratios**, injects true **300 DPI** metadata into the binary headers, and bundles everything into an **Etsy-compliant ZIP package** in seconds.
 
-## 一、 为什么选择“纯免费 + Google 广告”变现模型？
-
-1. **零交易摩擦，用户规模扩大 10 倍**：
-   - 竞品（如 SnapToSize）强制收取 $14.99/月的高昂订阅费，且免费版强制加水印，导致大量中小卖家反感；
-   - 本工具打出 **“100% Free · No Watermark · 100% Private”** 旗号，在 Reddit、Facebook 群组和 YouTube 评论区具备极其恐怖的口碑自发传播力。
-2. **欧美高价值广告回报（高 eCPM）**：
-   - 访客全是在线做生意的小卖家，属于极高商业价值的人群；
-   - 欧美设计、印刷、独立站电商相关广告在 Google AdSense 的千次展示收益（RPM）通常在 **$8 ~ $20 美元**；
-   - 随着 SEO 排名稳定，每月仅需几万次访问，即可持续贡献 **$200 ~ $600 美元（约 1,500 ~ 4,500 元人民币）** 的纯被动广告收益。
-3. **中国开发者合规无障碍**：
-   - 彻底免去注册海外公司、Stripe 审核等繁琐麻烦；
-   - Google AdSense 官方直接支持中国大陆居民身份证注册，广告收益直接电汇到国内储蓄卡。
+[**Explore Live Demo »**](https://etsy-art-packer.vercel.app/)
 
 ---
 
-## 二、 核心作用与解决痛点
+## 🌟 Key Highlights
 
-在欧美电商平台（Etsy、Shopify、Printify、Redbubble），买家购买数码壁画后需要自行打印装框：
-- 宜家相框是 **4:5 比例**（8x10", 16x20"）
-- 画廊海报是 **2:3 比例**（12x18", 24x36"）
-- 标准相框是 **3:4 比例**（18x24"）
-- 欧洲/澳洲买家需要 **ISO 标准**（A1~A5）
-- 经典肖像框是 **11:14 比例**
-
-卖家上传 1 款新品，必须在 Photoshop 里手动算尺寸、裁切 5 次、注入 300 DPI 并打包成 Zip。**本工具让卖家拖入原图，1 秒自动���成包含这 5 大主流比例及买家相框指南的交付 ZIP 包。**
+- **🔒 100% Client-Side & Private**: All image cropping, re-sampling, and ZIP packaging occur locally in the user's browser using HTML5 Canvas and Web Workers. Zero bytes of creative assets are ever uploaded to remote servers.
+- **🎯 5 Essential Ratio Families**: Pre-configured with the exact dimensional ratios required by global wall art marketplaces (2:3, 3:4, 4:5, ISO A-Series, and 11:14).
+- **🖨️ True Binary 300 DPI Injection**: Modifies the JFIF `APP0` marker directly in the JPEG byte stream to guarantee genuine 300 DPI resolution recognition across Photoshop, Windows Explorer, Printify, Gelato, and professional print labs.
+- **📦 Instant ZIP Delivery**: Uses in-memory compression via `JSZip` to generate a structured, customer-ready digital download pack complete with a built-in `Printing_Size_Guide.txt`.
+- **🚀 Zero Cost & Zero Setup**: Pure static frontend architecture with zero backend dependencies. Deployable instantly on Vercel, Cloudflare Pages, or GitHub Pages.
 
 ---
 
-## 三、 网页内广告位布局规划
+## 📐 Ratio & Size Matrix
 
-网页中已经预留好两个高点击率、不打扰用户体验的标准广告位：
-1. **工作区广告位（Top Responsive Ad）**：位于上传后 5 大切片卡片下方、生成按钮上方（用户等待切片完成时的黄金视线聚焦区）；
-2. **底部通栏广告位（Bottom Banner Ad）**：位于核心价值特性说明上方。
+EtsyArtPacker calculates and exports each ratio based on maximum standard wall frame specifications:
+
+| Ratio Family | Target Max Resolution (@300 DPI) | Compatible Frame & Print Sizes | Common Display Use Case |
+| :--- | :--- | :--- | :--- |
+| **2:3 Ratio** | **7200 × 4800 px** (or 4800 × 7200) | `4x6"`, `8x12"`, `12x18"`, `16x24"`, `20x30"`, `24x36"` | Large exhibition posters, gallery hallways |
+| **3:4 Ratio** | **7200 × 5400 px** (or 5400 × 7200) | `6x8"`, `9x12"`, `12x16"`, `15x20"`, `18x24"` | Standard photography & gallery frames |
+| **4:5 Ratio** | **6000 × 4800 px** (or 4800 × 6000) | `4x5"`, `8x10"`, `12x15"`, `16x20"` | Home decor, classic photo frames, IKEA frames |
+| **ISO A-Series**| **7016 × 4960 px** (or 4960 × 7016) | `A1`, `A2`, `A3`, `A4`, `A5` | International standard (UK, Europe, Australia) |
+| **11:14 Ratio** | **4200 �� 3300 px** (or 3300 × 4200) | `11x14"` | Popular North American standalone portrait frame |
+
+*Note: The exporter automatically detects whether the input artwork is portrait or landscape and applies corresponding dimension boundaries.*
 
 ---
 
-## 四、 Google AdSense 申请与上线流程
+## 🏗️ Technical Architecture & Pipeline
 
-1. **独立域名绑定**：
-   - 在 Cloudflare 或 Porkbun 购买一个域名（例如 `etsyartpacker.com`，约 60-80 元/年）；
-   - 在 Vercel 后台点击 **Settings -> Domains** 添加绑定；
-   - *(注意：Google AdSense 要求申请网站必须拥有自定义一级域名，不能直接用 `.vercel.app` 免费二级域名申请)*。
-2. **注册 AdSense 账号**：
-   - 打开 [google.com/adsense](https://www.google.com/adsense)，使用你的 Google 账号登录；
-   - 填写你的网站地址（你的独立域名），收款人姓名与地址填写身份证真实信息；
-3. **复制代码至网页**：
-   - Google 会提供一段自动广告代码（类似 `<script async src="https://pagead2.googlesyndication.com/..."></script>`）；
-   - 将该代码直接粘贴进 `index.html` 的 `<head>` 区域，推送到 GitHub 即可自动生效！
+```
+[Master Artwork (JPG/PNG/WEBP)]
+              │
+              ▼
+   [HTML5 Canvas Viewport]
+              │
+      ┌───────┴──────────────────────────────┐
+      │  • Aspect Ratio Calculation          │
+      │  • Smart Center Cropping             │
+      │  • High-Quality Bilinear Smoothing   │
+      └───────┬──────────────────────────────┘
+              │
+              ▼
+      [Raw JPEG Byte Stream]
+              │
+              ▼
+   [Binary JFIF Header Modifier] ──► (Sets APP0 Marker: Xdensity=300, Ydensity=300, Units=DPI)
+              │
+              ▼
+    [In-Memory JSZip Packaging]  ──► (5 High-Res JPGs + 1 Customer Printing Guide)
+              │
+              ▼
+[Instant Local Browser Download (.ZIP)]
+```
+
+---
+
+## 🚀 Quick Start & Local Development
+
+This project has zero build-step requirements. You can run it locally with any lightweight static file server:
+
+### Prerequisites
+- Any modern web browser (Chrome, Edge, Firefox, Safari)
+- Optional: Python 3 or Node.js for local static serving
+
+### Running Locally
+
+```bash
+# 1. Clone repository
+git clone https://github.com/XuChenXinXc/etsy-art-packer.git
+cd etsy-art-packer
+
+# 2. Start a local server (Option A: Python)
+python -m http.server 3000
+
+# Or (Option B: Node.js)
+npx serve .
+
+# 3. Open your browser
+# Navigate to: http://localhost:3000
+```
+
+---
+
+## 🌐 Production Deployment
+
+Deploy to modern serverless edge platforms with a single click or Git push:
+
+### Vercel
+1. Import this repository into [Vercel](https://vercel.com).
+2. Framework Preset: **Other**.
+3. Build & Output Settings: Leave default.
+4. Click **Deploy**.
+
+### Cloudflare Pages
+1. Connect repository in Cloudflare Dashboard under **Workers & Pages**.
+2. Build command: None (Static HTML).
+3. Output directory: `/`.
+4. Click **Deploy Site**.
+
+---
+
+## 📄 License
+
+Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for more information.
+
+---
+
+## 🤝 Contributing
+
+Contributions, feature suggestions, and pull requests are warmly welcomed!  
+If you find this tool helpful for your digital product store, please consider giving this repository a ⭐️!
