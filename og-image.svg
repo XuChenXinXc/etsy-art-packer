@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#020617"/>
+      <stop offset="50%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e1b4b"/>
+    </linearGradient>
+    <linearGradient id="textGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#818cf8"/>
+      <stop offset="50%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#34d399"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#38bdf8"/>
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+    </pattern>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="60" result="blur"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+
+  <!-- Ambient glow orbs -->
+  <circle cx="200" cy="150" r="260" fill="#4f46e5" opacity="0.18" filter="url(#glow)"/>
+  <circle cx="1000" cy="480" r="300" fill="#0284c7" opacity="0.15" filter="url(#glow)"/>
+
+  <!-- Brand badge -->
+  <g transform="translate(100, 90)">
+    <rect width="210" height="48" rx="24" fill="rgba(99,102,241,0.15)" stroke="rgba(99,102,241,0.3)" stroke-width="1.5"/>
+    <rect x="8" y="8" width="32" height="32" rx="16" fill="url(#accent)"/>
+    <path d="M26 14 L18 25 L23 25 L20 34 L29 23 L24 23 Z" fill="#ffffff"/>
+    <text x="50" y="31" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif" font-size="18" font-weight="700" fill="#ffffff" letter-spacing="0.5">EtsyArtPacker</text>
+  </g>
+
+  <!-- Main Headline -->
+  <text x="100" y="220" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif" font-size="52" font-weight="800" fill="#ffffff" letter-spacing="-1">
+    Turn 1 Artwork into
+  </text>
+  <text x="100" y="285" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif" font-size="52" font-weight="800" fill="url(#textGrad)" letter-spacing="-1">
+    5 Standard Print Ratios
+  </text>
+  <text x="100" y="340" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif" font-size="28" font-weight="500" fill="#94a3b8">
+    At True 300 DPI · In 5 Seconds · 100% Client-Side
+  </text>
+
+  <!-- Feature cards row -->
+  <g transform="translate(100, 390)">
+    <!-- Card 1 -->
+    <rect width="310" height="120" rx="20" fill="rgba(30,41,59,0.5)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+    <text x="24" y="45" font-family="-apple-system,sans-serif" font-size="20" font-weight="700" fill="#38bdf8">⚡ 5 Essential Ratios</text>
+    <text x="24" y="78" font-family="-apple-system,sans-serif" font-size="14" fill="#94a3b8">2:3 · 3:4 · 4:5 · ISO A1-A5 · 11:14</text>
+    <text x="24" y="98" font-family="-apple-system,sans-serif" font-size="13" fill="#64748b">Zero manual Photoshop resizing</text>
+
+    <!-- Card 2 -->
+    <rect x="340" y="0" width="310" height="120" rx="20" fill="rgba(30,41,59,0.5)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+    <text x="364" y="45" font-family="-apple-system,sans-serif" font-size="20" font-weight="700" fill="#34d399">🖨️ True 300 DPI</text>
+    <text x="364" y="78" font-family="-apple-system,sans-serif" font-size="14" fill="#94a3b8">JFIF APP0 Binary Header Injection</text>
+    <text x="364" y="98" font-family="-apple-system,sans-serif" font-size="13" fill="#64748b">Accepted by Printify, Gelato & Labs</text>
+
+    <!-- Card 3 -->
+    <rect x="680" y="0" width="310" height="120" rx="20" fill="rgba(30,41,59,0.5)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+    <text x="704" y="45" font-family="-apple-system,sans-serif" font-size="20" font-weight="700" fill="#a78bfa">🔒 100% In-Browser</text>
+    <text x="704" y="78" font-family="-apple-system,sans-serif" font-size="14" fill="#94a3b8">Zero Server Uploads · Full Privacy</text>
+    <text x="704" y="98" font-family="-apple-system,sans-serif" font-size="13" fill="#64748b">Free forever · No limits · No watermarks</text>
+  </g>
+
+  <!-- Footer branding -->
+  <text x="100" y="575" font-family="monospace" font-size="16" fill="#64748b">
+    https://etsy-art-packer.vercel.app · Open Source on GitHub
+  </text>
+</svg>

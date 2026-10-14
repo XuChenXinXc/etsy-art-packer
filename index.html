@@ -4,6 +4,27 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>EtsyArtPacker - 5-in-1 Wall Art Ratio Resizer & 300 DPI Packager</title>
+  
+  <!-- Primary Meta Tags -->
+  <meta name="title" content="EtsyArtPacker - 5-in-1 Wall Art Ratio Resizer & 300 DPI Packager">
+  <meta name="description" content="Free open-source in-browser tool for Etsy & POD sellers. Auto-crop artwork to 5 standard gallery ratios (2:3, 3:4, 4:5, ISO, 11:14), inject genuine 300 DPI metadata, and download an Etsy-ready ZIP. Zero upload, 100% private.">
+  <meta name="keywords" content="etsy wall art resizer, 300 dpi converter, print on demand image converter, etsy ratio calculator, digital wall art packager">
+  <meta name="author" content="EtsyArtPacker">
+
+  <!-- Open Graph / Facebook / LinkedIn -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://etsy-art-packer.vercel.app/">
+  <meta property="og:title" content="EtsyArtPacker - Free 5-in-1 Wall Art Ratio Resizer @ 300 DPI">
+  <meta property="og:description" content="Turn 1 image into 5 standard print ratios at 300 DPI in 5 seconds. 100% client-side, zero server upload, customer print guide included.">
+  <meta property="og:image" content="https://etsy-art-packer.vercel.app/og-image.svg">
+
+  <!-- Twitter Card -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://etsy-art-packer.vercel.app/">
+  <meta property="twitter:title" content="EtsyArtPacker - Free 5-in-1 Wall Art Ratio Resizer @ 300 DPI">
+  <meta property="twitter:description" content="Stop resizing in Photoshop for 15 mins. Auto-crop to 5 essential frame ratios, inject 300 DPI, and download Etsy-ready ZIP package.">
+  <meta property="twitter:image" content="https://etsy-art-packer.vercel.app/og-image.svg">
+
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="alternate icon" href="favicon.svg">
@@ -97,11 +118,17 @@
           </div>
         </div>
         <div class="flex items-center gap-3 w-full md:w-auto justify-end">
-          <label class="text-xs text-slate-400 font-medium">Crop Strategy:</label>
-          <select id="crop-strategy" class="bg-slate-800 border border-slate-700 rounded-lg text-xs text-slate-200 px-3 py-2 outline-none focus:border-indigo-500 font-medium">
-            <option value="center">Smart Center Crop (Recommended)</option>
-            <option value="fit">Contain with Margin (No Cut)</option>
-          </select>
+          <div class="flex items-center gap-2">
+            <label class="text-xs text-slate-400 font-medium">Crop Strategy:</label>
+            <select id="crop-strategy" class="bg-slate-800 border border-slate-700 rounded-lg text-xs text-slate-200 px-3 py-2 outline-none focus:border-indigo-500 font-medium">
+              <option value="center">Smart Center Crop (Recommended)</option>
+              <option value="fit">Contain with Margin (No Cut)</option>
+            </select>
+          </div>
+          <button id="btn-reset" class="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 text-xs font-medium transition flex items-center gap-1.5" title="Upload a different image">
+            <span>↺</span>
+            <span class="hidden sm:inline">Change Image</span>
+          </button>
         </div>
       </div>
 
@@ -281,6 +308,19 @@
     const btnProcess = document.getElementById("btn-process");
     const btnText = document.getElementById("btn-text");
     const statusText = document.getElementById("status-text");
+    const btnReset = document.getElementById("btn-reset");
+
+    // Reset handler to upload a new artwork cleanly
+    if (btnReset) {
+      btnReset.addEventListener("click", () => {
+        sourceImage = null;
+        fileInput.value = "";
+        workspace.classList.add("hidden");
+        statusText.textContent = "";
+        btnText.textContent = "Generate & Download Etsy 300 DPI ZIP (5 Files)";
+        dropZone.scrollIntoView({ behavior: 'smooth' });
+      });
+    }
 
     // File selection handler
     fileInput.addEventListener("change", (e) => {
@@ -350,8 +390,8 @@
       });
     }
 
-    // Helper: Smart Center Crop logic on HTML Canvas
-    function cropAndRender(img, targetW, targetH) {
+    // Helper: Smart Center Crop or Contain with Margin logic on HTML Canvas
+    function cropAndRender(img, targetW, targetH, strategy = "center") {
       const canvas = document.createElement("canvas");
       canvas.width = targetW;
       canvas.height = targetH;
@@ -361,26 +401,61 @@
       ctx.imageSmoothingEnabled = true;
       ctx.imageSmoothingQuality = "high";
 
-      const targetAspect = targetW / targetH;
-      const srcAspect = img.width / img.height;
+      if (strategy === "fit") {
+        // Sample edge pixel color to fill margin naturally, fallback to pure white
+        try {
+          const sampleCanvas = document.createElement("canvas");
+          sampleCanvas.width = 1;
+          sampleCanvas.height = 1;
+          const sCtx = sampleCanvas.getContext("2d");
+          sCtx.drawImage(img, 0, 0, 1, 1, 0, 0, 1, 1);
+          const pixel = sCtx.getImageData(0, 0, 1, 1).data;
+          ctx.fillStyle = `rgb(${pixel[0]}, ${pixel[1]}, ${pixel[2]})`;
+        } catch (e) {
+          ctx.fillStyle = "#ffffff";
+        }
+        ctx.fillRect(0, 0, targetW, targetH);
 
-      let drawW, drawH, drawX, drawY;
+        const targetAspect = targetW / targetH;
+        const srcAspect = img.width / img.height;
+        let drawW, drawH, drawX, drawY;
 
-      if (srcAspect > targetAspect) {
-        // Source is wider than target: fit height, crop width
-        drawH = img.height;
-        drawW = img.height * targetAspect;
-        drawX = (img.width - drawW) / 2;
-        drawY = 0;
+        if (srcAspect > targetAspect) {
+          // Image wider: match width, leave vertical margins
+          drawW = targetW;
+          drawH = targetW / srcAspect;
+          drawX = 0;
+          drawY = (targetH - drawH) / 2;
+        } else {
+          // Image taller: match height, leave horizontal margins
+          drawH = targetH;
+          drawW = targetH * srcAspect;
+          drawX = (targetW - drawW) / 2;
+          drawY = 0;
+        }
+        ctx.drawImage(img, 0, 0, img.width, img.height, drawX, drawY, drawW, drawH);
       } else {
-        // Source is taller than target: fit width, crop height
-        drawW = img.width;
-        drawH = img.width / targetAspect;
-        drawX = 0;
-        drawY = (img.height - drawH) / 2;
+        // Smart Center Crop
+        const targetAspect = targetW / targetH;
+        const srcAspect = img.width / img.height;
+        let drawW, drawH, drawX, drawY;
+
+        if (srcAspect > targetAspect) {
+          // Source is wider than target: fit height, crop width
+          drawH = img.height;
+          drawW = img.height * targetAspect;
+          drawX = (img.width - drawW) / 2;
+          drawY = 0;
+        } else {
+          // Source is taller than target: fit width, crop height
+          drawW = img.width;
+          drawH = img.width / targetAspect;
+          drawX = 0;
+          drawY = (img.height - drawH) / 2;
+        }
+        ctx.drawImage(img, drawX, drawY, drawW, drawH, 0, 0, targetW, targetH);
       }
 
-      ctx.drawImage(img, drawX, drawY, drawW, drawH, 0, 0, targetW, targetH);
       return canvas;
     }
 
@@ -489,10 +564,13 @@ HOW TO PRINT:
         const zip = new JSZip();
         const isPortrait = sourceImage.height >= sourceImage.width;
 
-        // Process each ratio sequentially
+        const cropStrategyEl = document.getElementById("crop-strategy");
+        const selectedStrategy = cropStrategyEl ? cropStrategyEl.value : "center";
+
+        // Process each ratio sequentially with explicit memory cleanup
         for (let i = 0; i < RATIOS.length; i++) {
           const r = RATIOS[i];
-          statusText.textContent = `Cropping & Injecting 300 DPI for ${r.label} (${i + 1}/${RATIOS.length})...`;
+          statusText.textContent = `Processing & Injecting 300 DPI for ${r.label} (${i + 1}/${RATIOS.length})...`;
 
           let targetW, targetH;
           if (isPortrait) {
@@ -503,17 +581,24 @@ HOW TO PRINT:
             targetH = Math.round(targetW * (r.w / r.h));
           }
 
-          const canvas = cropAndRender(sourceImage, targetW, targetH);
+          const canvas = cropAndRender(sourceImage, targetW, targetH, selectedStrategy);
           
           // Convert canvas to JPEG blob (quality 0.95)
           const rawBlob = await new Promise((res) => canvas.toBlob(res, "image/jpeg", 0.95));
           
+          // Immediately release canvas graphics memory
+          canvas.width = 0;
+          canvas.height = 0;
+
           // Inject 300 DPI JFIF metadata
           const dpiBlob = await setDpiInJpeg(rawBlob, 300);
 
           // Add to zip
           const fileName = `${sourceFileName}_${r.name}_300DPI.jpg`;
           zip.file(fileName, dpiBlob);
+
+          // Small yield to browser UI loop for smooth garbage collection
+          await new Promise((resolve) => setTimeout(resolve, 30));
         }
 
         // Add Customer Guide
