@@ -18,14 +18,17 @@
   <meta property="og:url" content="https://etsy-art-packer.vercel.app/">
   <meta property="og:title" content="EtsyArtPacker - Free 5-in-1 Wall Art Ratio Resizer @ 300 DPI">
   <meta property="og:description" content="Turn 1 image into 5 standard print ratios at 300 DPI in 5 seconds. 100% client-side, zero server upload, customer print guide included.">
-  <meta property="og:image" content="https://etsy-art-packer.vercel.app/og-image.svg">
+  <meta property="og:image" content="https://etsy-art-packer.vercel.app/og-image.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
 
-  <!-- Twitter Card -->
-  <meta property="twitter:card" content="summary_large_image">
-  <meta property="twitter:url" content="https://etsy-art-packer.vercel.app/">
-  <meta property="twitter:title" content="EtsyArtPacker - Free 5-in-1 Wall Art Ratio Resizer @ 300 DPI">
-  <meta property="twitter:description" content="Stop resizing in Photoshop for 15 mins. Auto-crop to 5 essential frame ratios, inject 300 DPI, and download Etsy-ready ZIP package.">
-  <meta property="twitter:image" content="https://etsy-art-packer.vercel.app/og-image.svg">
+  <!-- Twitter Card (X) -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://etsy-art-packer.vercel.app/">
+  <meta name="twitter:title" content="EtsyArtPacker - Free 5-in-1 Wall Art Ratio Resizer @ 300 DPI">
+  <meta name="twitter:description" content="Stop resizing in Photoshop for 15 mins. Auto-crop to 5 essential frame ratios, inject 300 DPI, and download Etsy-ready ZIP package.">
+  <meta name="twitter:image" content="https://etsy-art-packer.vercel.app/og-image.png">
 
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
@@ -57,31 +60,32 @@
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": ["SoftwareApplication", "WebApplication"],
+        "@type": "WebApplication",
         "name": "EtsyArtPacker",
-        "description": "Free open-source in-browser tool for Etsy & POD sellers. Auto-crop artwork to 5 standard gallery ratios (2:3, 3:4, 4:5, ISO, 11:14), inject genuine 300 DPI metadata, and download an Etsy-ready ZIP in one click.",
-        "url": "https://etsy-art-packer.vercel.app/",
-        "applicationCategory": "DesignApplication, MultimediaApplication",
+        "applicationCategory": "DesignApplication",
         "operatingSystem": "Any",
-        "browserRequirements": "Requires JavaScript. Works in any modern web browser.",
+        "browserRequirements": "Requires a modern JavaScript-enabled web browser.",
         "offers": {
           "@type": "Offer",
           "price": "0",
           "priceCurrency": "USD",
-          "availability": "https://schema.org/InStock",
-          "description": "100% free and open-source. No account or payment required."
+          "description": "Free forever; no credit card required."
         },
         "featureList": [
-          "Auto-crop to 5 Etsy standard gallery ratios (2:3, 3:4, 4:5, ISO, 11:14)",
-          "Genuine 300 DPI EXIF/JFIF metadata injection via canvas-to-blob",
-          "100% client-side processing for full privacy (no image upload)",
-          "Fast bulk ZIP archive packaging with JSZip",
-          "Dark mode / Light mode support with zero-dependency vanilla JS"
+          "Client-side image processing with zero upload",
+          "Auto-crop one master image into 5 standard wall-art ratios",
+          "Genuine 300 DPI metadata injection",
+          "Etsy-ready ZIP download with organized folders",
+          "Open-source and privacy-first"
         ],
+        "description": "Free open-source in-browser tool for Etsy & POD sellers. Auto-crop artwork to 5 standard gallery ratios (2:3, 3:4, 4:5, ISO, 11:14), inject genuine 300 DPI metadata, and download an Etsy-ready ZIP. Zero upload, 100% private.",
+        "url": "https://etsy-art-packer.vercel.app/",
+        "isAccessibleForFree": true,
         "license": "https://opensource.org/licenses/MIT",
         "author": {
           "@type": "Organization",
-          "name": "EtsyArtPacker"
+          "name": "EtsyArtPacker",
+          "url": "https://etsy-art-packer.vercel.app/"
         }
       },
       {
@@ -101,6 +105,14 @@
             "acceptedAnswer": {
               "@type": "Answer",
               "text": "No. All cropping, resizing, 300 DPI embedding, and ZIP creation run entirely in your local browser using HTML5 Canvas and Web APIs. Your artwork never leaves your computer."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does EtsyArtPacker inject genuine 300 DPI metadata?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, it injects genuine JFIF binary header tags (Xdensity and Ydensity set to 300) directly into the JPEG output, meeting Printify, Gelato, and Etsy print lab requirements."
             }
           }
         ]
@@ -145,13 +157,13 @@
         ✨ Designed for Etsy & Print-on-Demand Sellers
       </div>
       <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-4">
-        Turn 1 Image into <span class="bg-gradient-to-r from-indigo-400 to-sky-400 bg-clip-text text-transparent">5 Standard Ratios</span> at 300 DPI
+        Turn 1 Master Artwork into <span class="bg-gradient-to-r from-indigo-400 to-sky-400 bg-clip-text text-transparent">5 Etsy-Ready Wall-Art Sizes</span> at 300 DPI — Private, Free & Done in Seconds
       </h1>
       <p class="text-slate-400 text-base leading-relaxed mb-5">
-        Stop losing Etsy sales to bad print sizing. Upload your master artwork, auto-crop to 5 essential frame ratios, inject genuine 300 DPI metadata, and package into a shop-ready ZIP in 10 seconds.
+        Stop losing Etsy sales to bad print sizing. No account. No credit card. No server upload. Your artwork never leaves your browser.
       </p>
       <!-- Trust & Risk Reversal Badges -->
-      <div class="flex flex-wrap items-center justify-center gap-4 text-xs font-medium text-slate-300">
+      <div class="flex flex-wrap items-center justify-center gap-3 text-xs font-medium text-slate-300">
         <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-slate-900 border border-slate-800">
           <span class="text-emerald-400">🛡️</span> 100% Client-Side (Zero Server Upload)
         </span>
@@ -160,6 +172,9 @@
         </span>
         <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-slate-900 border border-slate-800">
           <span class="text-sky-400">✨</span> Free Forever (No Card Required)
+        </span>
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-slate-900 border border-slate-800">
+          <span class="text-amber-400">🔒</span> Artwork Never Leaves Browser
         </span>
       </div>
     </div>
@@ -373,12 +388,27 @@
   </main>
 
   <!-- Footer -->
-  <footer class="border-t border-slate-800/60 py-8 text-center text-xs text-slate-500 space-y-2">
+  <footer class="border-t border-slate-800/60 py-8 text-center text-xs text-slate-500 space-y-3">
+    <div class="flex flex-wrap items-center justify-center gap-4 text-slate-400 font-medium">
+      <a href="/" class="hover:text-indigo-400 transition">Home</a>
+      <span>·</span>
+      <a href="/privacy" class="hover:text-indigo-400 transition">Privacy Policy</a>
+      <span>·</span>
+      <a href="/terms" class="hover:text-indigo-400 transition">Terms of Service</a>
+      <span>·</span>
+      <a href="/llms.txt" class="hover:text-indigo-400 transition">llms.txt</a>
+      <span>·</span>
+      <a href="mailto:support@etsy-art-packer.vercel.app" class="hover:text-indigo-400 transition flex items-center gap-1">
+        <span>✉️ Support</span>
+      </a>
+      <span>·</span>
+      <a href="https://github.com/XuChenXinXc/etsy-art-packer" target="_blank" rel="noopener noreferrer" class="hover:text-indigo-400 transition">GitHub</a>
+    </div>
     <p>
       Crafted with ⚡ by <a href="https://github.com/XuChenXinXc" target="_blank" rel="noopener noreferrer" class="text-indigo-400 hover:text-indigo-300 font-semibold underline decoration-indigo-400/40">@XuChenXinXc</a> · Built for independent creators and print-on-demand sellers.
     </p>
     <p class="text-slate-600">
-      Open source under MIT License · All rights reserved © 2026
+      Open source under MIT License · Support: <a href="mailto:support@etsy-art-packer.vercel.app" class="text-slate-500 hover:text-slate-400 underline">support@etsy-art-packer.vercel.app</a> · All rights reserved © 2026
     </p>
   </footer>
 
