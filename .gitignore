@@ -1,0 +1,22 @@
+# Dependencies & Tools
+node_modules/
+.playwright-mcp/
+temp/
+*.log
+
+# Media & Temporary Generation Assets
+*.mp4
+*.webm
+*.wav
+demo-artwork.jpg
+shot_*.png
+frame_*.png
+cut_*.png
+phone_*.png
+direct_*.png
+raw_*.png
+scene*.png
+tiktok_*.png
+temp_*.html
+promo/
+
