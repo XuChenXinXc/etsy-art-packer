@@ -1,0 +1,3 @@
+[     767ms] [WARNING] cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation @ https://cdn.tailwindcss.com/:63
+[    1012ms] Uncaught ReferenceError: module is not defined
+    at <anonymous> (https://cdn.jsdelivr.net/npm/@vercel/analytics@latest/dist/index.js:28:0)
