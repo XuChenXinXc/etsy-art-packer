@@ -20,4 +20,4 @@
 
 - No public API at this time.
 - Open-source repository: https://github.com/XuChenXinXc/etsy-art-packer
-- Documentation and comparison guides: https://etsy-art-packer.vercel.app/
+- Documentation and comparison guides: https://etsyartpacker.com/

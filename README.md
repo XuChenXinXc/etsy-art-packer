@@ -1,13 +1,13 @@
 # EtsyArtPacker ⚡
 
-[![Live Demo](https://img.shields.io/badge/demo-online-emerald.svg?style=flat-square)](https://etsy-art-packer.vercel.app/)
+[![Live Demo](https://img.shields.io/badge/demo-online-emerald.svg?style=flat-square)](https://etsyartpacker.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
-[![Platform](https://img.shields.io/badge/Platform-Web%20%7C%20Client--Side-indigo.svg?style=flat-square)](https://etsy-art-packer.vercel.app/)
-[![Zero Upload](https://img.shields.io/badge/Privacy-100%25%20In--Browser-green.svg?style=flat-square)](https://etsy-art-packer.vercel.app/)
+[![Platform](https://img.shields.io/badge/Platform-Web%20%7C%20Client--Side-indigo.svg?style=flat-square)](https://etsyartpacker.com/)
+[![Zero Upload](https://img.shields.io/badge/Privacy-100%25%20In--Browser-green.svg?style=flat-square)](https://etsyartpacker.com/)
 
 > **EtsyArtPacker** is an open-source, client-side image processing utility engineered for Etsy digital art sellers and Print-on-Demand (POD) creators. It automatically transforms a single high-resolution artwork into the **5 standard gallery frame ratios**, injects true **300 DPI** metadata into the binary headers, and bundles everything into an **Etsy-compliant ZIP package** in seconds.
 
-[**Explore Live Demo »**](https://etsy-art-packer.vercel.app/)
+[**Explore Live Demo »**](https://etsyartpacker.com/)
 
 ---
 
