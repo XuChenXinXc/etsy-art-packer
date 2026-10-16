@@ -1,23 +1,22 @@
 # EtsyArtPacker
 
-> Free open-source browser tool that turns one master artwork into 5 standard Etsy wall-art ratios at genuine 300 DPI — no upload, 100% private.
+> Free in-browser batch ratio resizer and 300 DPI packager for Etsy digital wall art sellers.
+
+## Overview
+EtsyArtPacker solves the primary friction point for printable wall art sellers: converting one master artwork file into multiple standard gallery aspect ratios without manual cropping in Photoshop. All processing is executed client-side.
 
 ## Core Features
+- **Client-Side Privacy Engine**: 0% server uploads. All image transformations happen via browser Canvas.
+- **5-in-1 Standard Ratios**: 2:3, 3:4, 4:5, ISO (A1-A5), and 11:14.
+- **300 DPI Metadata Injection**: Automatically sets JFIF resolution density to 300 DPI for high-quality printing standard validation.
+- **Bundled ZIP Export**: Downloads organized, pre-labeled JPEG packages under Etsy's 20MB listing file limit.
 
-- Drag-and-drop master image processing entirely in the browser.
-- Auto-crops to 5 standard gallery ratios: 2:3, 3:4, 4:5, ISO, 11:14.
-- Injects real 300 DPI metadata into each file.
-- Downloads an Etsy-ready ZIP with organized folders.
-- Zero server upload; all files stay on the user's device.
+## Target Audience
+- Etsy Printable Art Sellers
+- Print-on-Demand (POD) Store Owners
+- Midjourney & AI Art Creators packaging prints
 
-## Pricing
-
-- Free forever for all current features.
-- No credit card required.
-- Optional Pro / bulk tier may be introduced later; the free tier will remain available.
-
-## API & Docs
-
-- No public API at this time.
-- Open-source repository: https://github.com/XuChenXinXc/etsy-art-packer
-- Documentation and comparison guides: https://etsyartpacker.com/
+## Technical Specifications
+- Technology: Client-side JavaScript / HTML5 Canvas / JSZip
+- Output format: High-quality JPEG (300 DPI metadata header)
+- Pricing: 100% Free / Open-source utility

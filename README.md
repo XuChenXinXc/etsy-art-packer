@@ -13,7 +13,7 @@
 
 ## 🌟 Key Highlights
 
-- **🔒 100% Client-Side & Private**: All image cropping, re-sampling, and ZIP packaging occur locally in the user's browser using HTML5 Canvas and Web Workers. Zero bytes of creative assets are ever uploaded to remote servers.
+- **🔒 100% Client-Side & Private**: All image cropping, re-sampling, and ZIP packaging occur locally in the user's browser using HTML5 Canvas. Zero bytes of creative assets are ever uploaded to remote servers.
 - **🎯 5 Essential Ratio Families**: Pre-configured with the exact dimensional ratios required by global wall art marketplaces (2:3, 3:4, 4:5, ISO A-Series, and 11:14).
 - **🖨️ True Binary 300 DPI Injection**: Modifies the JFIF `APP0` marker directly in the JPEG byte stream to guarantee genuine 300 DPI resolution recognition across Photoshop, Windows Explorer, Printify, Gelato, and professional print labs.
 - **📦 Instant ZIP Delivery**: Uses in-memory compression via `JSZip` to generate a structured, customer-ready digital download pack complete with a built-in `Printing_Size_Guide.txt`.
@@ -25,13 +25,13 @@
 
 EtsyArtPacker calculates and exports each ratio based on maximum standard wall frame specifications:
 
-| Ratio Family | Target Max Resolution (@300 DPI) | Compatible Frame & Print Sizes | Common Display Use Case |
+| Ratio Family | Target Max Resolution | Optimal Prints (@300 DPI) | Standard / Large Display Sizes |
 | :--- | :--- | :--- | :--- |
-| **2:3 Ratio** | **7200 × 4800 px** (or 4800 × 7200) | `4x6"`, `8x12"`, `12x18"`, `16x24"`, `20x30"`, `24x36"` | Large exhibition posters, gallery hallways |
+| **2:3 Ratio** | **7200 × 4800 px** (or 4800 × 7200) | `4x6"`, `8x12"`, `12x18"`, `16x24"` | `20x30"` (@240 DPI), `24x36"` (@200 DPI) |
 | **3:4 Ratio** | **7200 × 5400 px** (or 5400 × 7200) | `6x8"`, `9x12"`, `12x16"`, `15x20"`, `18x24"` | Standard photography & gallery frames |
 | **4:5 Ratio** | **6000 × 4800 px** (or 4800 × 6000) | `4x5"`, `8x10"`, `12x15"`, `16x20"` | Home decor, classic photo frames, IKEA frames |
-| **ISO A-Series**| **7016 × 4960 px** (or 4960 × 7016) | `A1`, `A2`, `A3`, `A4`, `A5` | International standard (UK, Europe, Australia) |
-| **11:14 Ratio** | **4200 �� 3300 px** (or 3300 × 4200) | `11x14"` | Popular North American standalone portrait frame |
+| **ISO A-Series**| **7016 × 4960 px** (or 4960 × 7016) | `A5`, `A4`, `A3`, `A2` | `A1` (@212 DPI) |
+| **11:14 Ratio** | **4200 × 3300 px** (or 3300 × 4200) | `11x14"` | Popular North American standalone portrait frame |
 
 *Note: The exporter automatically detects whether the input artwork is portrait or landscape and applies corresponding dimension boundaries.*
 
