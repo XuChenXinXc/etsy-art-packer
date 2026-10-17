@@ -42,11 +42,10 @@
   </script>
   <script defer src="/_vercel/insights/script.js"></script>
   <script defer src="/_vercel/speed-insights/script.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/@vercel/analytics@latest/dist/index.js"></script>
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- JSZip for client-side ZIP packaging -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <!-- Tailwind CSS v3.4.17, prebuilt (see README "Rebuilding Styles") -->
+  <link rel="stylesheet" href="assets/tailwind.css">
+  <!-- JSZip v3.10.1 (vendored) for client-side ZIP packaging -->
+  <script src="assets/jszip.min.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
     body {
@@ -73,7 +72,7 @@
         "featureList": [
           "Client-side zero-upload private image processing",
           "5-in-1 standard ratio cropping (2:3, 3:4, 4:5, ISO, 11:14)",
-          "Automatic 300 DPI EXIF metadata injection",
+          "Automatic 300 DPI JFIF metadata injection",
           "One-click Etsy-ready ZIP packaging",
           "Smart centering and aspect ratio preview"
         ],
@@ -136,11 +135,11 @@
         </div>
         <div>
           <span class="font-bold text-lg text-white tracking-tight">EtsyArtPacker</span>
-          <span class="text-xs ml-2 px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 font-medium">POD Pro</span>
+          <span class="hidden sm:inline-block whitespace-nowrap text-xs ml-2 px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 font-medium">POD Pro</span>
         </div>
       </div>
       <div class="flex items-center gap-3 text-sm">
-        <span class="text-slate-400 inline-flex items-center gap-1.5 text-xs">
+        <span class="text-slate-400 hidden sm:inline-flex items-center gap-1.5 text-xs">
           <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
           100% Free · Client-Side Only
         </span>
@@ -161,7 +160,7 @@
         ✨ Designed for Etsy & Print-on-Demand Sellers
       </div>
       <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-4">
-        Prepare 5 Etsy-Ready Print Ratios at 300 DPI in 3 Seconds — <span class="bg-gradient-to-r from-indigo-400 to-sky-400 bg-clip-text text-transparent">100% Private, Free, In-Browser</span>
+        Prepare 5 Etsy-Ready Print Ratios at 300 DPI in 5 Seconds — <span class="bg-gradient-to-r from-indigo-400 to-sky-400 bg-clip-text text-transparent">100% Private, Free, In-Browser</span>
       </h1>
       <p class="text-slate-300 text-base leading-relaxed mb-5 font-normal">
         100% Local Browser Processing: Your master files never upload to any server. No watermarks, no account needed, and free forever for commercial Etsy listings.
@@ -184,7 +183,7 @@
     </div>
 
     <!-- Upload Box -->
-    <div id="drop-zone" class="border-2 border-dashed border-slate-700 hover:border-indigo-500 rounded-3xl p-10 text-center bg-slate-900/40 hover:bg-slate-900/70 transition-all cursor-pointer relative group mb-8 shadow-xl">
+    <div id="drop-zone" role="button" tabindex="0" class="border-2 border-dashed border-slate-700 hover:border-indigo-500 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/40 rounded-3xl p-10 text-center bg-slate-900/40 hover:bg-slate-900/70 transition-all cursor-pointer relative group mb-8 shadow-xl">
       <input type="file" id="file-input" accept=".jpg,.jpeg,.png,.webp" class="hidden">
       <div class="flex flex-col items-center gap-4 pointer-events-none">
         <div class="w-16 h-16 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform text-indigo-400">
@@ -194,21 +193,22 @@
           <p class="text-lg font-semibold text-slate-200 mb-1">
             Drag & drop your master artwork here, or <span class="text-indigo-400 underline decoration-indigo-400/50">browse</span>
           </p>
-          <p class="text-xs text-slate-500">Supports JPG, PNG, WEBP up to 50MB · High-res artwork recommended</p>
+          <p class="text-xs text-slate-400">Supports JPG, PNG, WEBP up to 50MB · High-res artwork recommended</p>
         </div>
       </div>
     </div>
+    <p id="upload-status" role="status" aria-live="polite" class="hidden text-sm text-rose-400 mb-8"></p>
 
     <!-- Workspace (Hidden until image selected) -->
     <div id="workspace" class="hidden space-y-8">
       
       <!-- Source Info Card -->
-      <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-6">
-        <div class="flex items-center gap-5 w-full md:w-auto">
+      <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 flex flex-col lg:flex-row items-center justify-between gap-6">
+        <div class="flex items-center gap-5 min-w-0 w-full lg:w-auto lg:flex-1">
           <img id="preview-thumb" class="w-20 h-20 rounded-xl object-cover border border-slate-700 bg-slate-950 shrink-0" src="" alt="Master Artwork Preview Thumbnail">
-          <div>
+          <div class="min-w-0">
             <h3 id="src-name" class="font-bold text-slate-100 text-base truncate max-w-xs sm:max-w-md">image.jpg</h3>
-            <div class="flex items-center gap-3 mt-1.5 text-xs text-slate-400 mono">
+            <div class="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1.5 text-xs text-slate-400 mono">
               <span id="src-dimensions">0 × 0 px</span>
               <span>•</span>
               <span id="src-size">0 MB</span>
@@ -217,19 +217,21 @@
             </div>
           </div>
         </div>
-        <div class="flex items-center gap-3 w-full md:w-auto justify-end">
-          <div class="flex items-center gap-2">
-            <label class="text-xs text-slate-400 font-medium">Crop Strategy:</label>
-            <select id="crop-strategy" class="bg-slate-800 border border-slate-700 rounded-lg text-xs text-slate-200 px-3 py-2 outline-none focus:border-indigo-500 font-medium">
-              <option value="center">Smart Center Crop (Balanced)</option>
+        <div class="flex flex-col sm:flex-row sm:items-end gap-3 w-full lg:w-auto lg:max-w-sm">
+          <div class="flex flex-col gap-2 min-w-0 w-full sm:flex-1">
+            <label for="crop-strategy" class="text-xs text-slate-400 font-medium">Crop Strategy:</label>
+            <select id="crop-strategy" class="w-full min-w-0 bg-slate-800 border border-slate-700 rounded-lg text-xs text-slate-200 px-3 py-2 outline-none focus:border-indigo-500 font-medium">
+              <option value="center">Center Anchor (Default)</option>
               <option value="top">Top Anchor (Protects Faces & Portraits)</option>
               <option value="bottom">Bottom Anchor (Foreground / Landscape)</option>
+              <option value="left">Left Anchor (Left-weighted Subjects)</option>
+              <option value="right">Right Anchor (Right-weighted Subjects)</option>
               <option value="fit-white">Contain with Margin (Pure White Padding)</option>
               <option value="fit-black">Contain with Margin (Pure Black Padding)</option>
               <option value="fit-edge">Contain with Margin (Adaptive Edge Tone)</option>
             </select>
           </div>
-          <button id="btn-reset" class="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 text-xs font-medium transition flex items-center gap-1.5" title="Upload a different image">
+          <button id="btn-reset" class="shrink-0 self-end px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 text-xs font-medium transition flex items-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed" title="Upload a different image">
             <span>↺</span>
             <span class="hidden sm:inline">Change Image</span>
           </button>
@@ -247,7 +249,7 @@
           <span class="text-xs text-slate-400">Target Standard: 300 PPI for Fine Art Gallery Prints</span>
         </div>
         <p class="text-xs text-slate-400 leading-relaxed">
-          While EtsyArtPacker injects genuine <strong>300 DPI metadata</strong> into file headers, physical print clarity is determined by your original pixel count. Here is your artwork's calculated print resolution across common sizes:
+          While EtsyArtPacker injects genuine <strong>300 DPI metadata</strong> into file headers, print clarity also depends on available image detail and export dimensions. These estimates account for your selected crop or margin strategy and the export size limits:
         </p>
         <div id="preflight-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-1">
           <!-- Dynamically populated via JavaScript -->
@@ -256,12 +258,12 @@
 
       <!-- 5-in-1 Standard Ratio Grid -->
       <div>
-        <div class="flex items-center justify-between mb-4">
-          <h2 class="text-base font-bold text-slate-200 flex items-center gap-2">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+          <h2 class="text-base font-bold text-slate-200 flex flex-wrap items-center gap-2">
             <span>5 Essential Etsy Print Ratios</span>
-            <span class="text-xs font-normal text-slate-500">(Auto-fitted up to max canvas resolution @ 300 DPI)</span>
+            <span class="text-xs font-normal text-slate-400">(Auto-fitted up to max canvas resolution @ 300 DPI)</span>
           </h2>
-          <span class="text-xs text-indigo-400 font-medium">Includes Free "Printing-Guide.txt"</span>
+          <span class="text-xs text-indigo-400 font-medium">Includes Free "Printing_Size_Guide.txt"</span>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="ratios-container">
@@ -273,7 +275,7 @@
                 <span class="text-xs text-emerald-400 font-medium bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">300 DPI</span>
               </div>
               <h4 class="text-sm font-semibold text-slate-200">Large Poster Ratio</h4>
-              <p class="text-xs text-slate-400 my-2">Prints: 4x6", 8x12", 12x18", 16x24" (@300 DPI); 24x36" (@200 DPI)</p>
+              <p class="text-xs text-slate-400 my-2">Prints: 4x6", 8x12", 12x18", 16x24", 24x36"</p>
             </div>
             <div>
               <div class="w-full h-36 bg-slate-950 rounded-xl border border-slate-800 flex items-center justify-center overflow-hidden mb-2 relative">
@@ -293,7 +295,7 @@
                 <span class="text-xs text-emerald-400 font-medium bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">300 DPI</span>
               </div>
               <h4 class="text-sm font-semibold text-slate-200">Standard Gallery Ratio</h4>
-              <p class="text-xs text-slate-400 my-2">Prints: 6x8", 9x12", 12x16", 15x20", 18x24" (@300 DPI)</p>
+              <p class="text-xs text-slate-400 my-2">Prints: 6x8", 9x12", 12x16", 15x20", 18x24"</p>
             </div>
             <div>
               <div class="w-full h-36 bg-slate-950 rounded-xl border border-slate-800 flex items-center justify-center overflow-hidden mb-2 relative">
@@ -313,7 +315,7 @@
                 <span class="text-xs text-emerald-400 font-medium bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">300 DPI</span>
               </div>
               <h4 class="text-sm font-semibold text-slate-200">Home & IKEA Frame</h4>
-              <p class="text-xs text-slate-400 my-2">Prints: 4x5", 8x10", 12x15", 16x20" (@300 DPI)</p>
+              <p class="text-xs text-slate-400 my-2">Prints: 4x5", 8x10", 12x15", 16x20"</p>
             </div>
             <div>
               <div class="w-full h-36 bg-slate-950 rounded-xl border border-slate-800 flex items-center justify-center overflow-hidden mb-2 relative">
@@ -333,7 +335,7 @@
                 <span class="text-xs text-emerald-400 font-medium bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">300 DPI</span>
               </div>
               <h4 class="text-sm font-semibold text-slate-200">International A-Series</h4>
-              <p class="text-xs text-slate-400 my-2">Prints: A5, A4, A3, A2 (@300 DPI); A1 (@212 DPI)</p>
+              <p class="text-xs text-slate-400 my-2">Prints: A5, A4, A3, A2, A1</p>
             </div>
             <div>
               <div class="w-full h-36 bg-slate-950 rounded-xl border border-slate-800 flex items-center justify-center overflow-hidden mb-2 relative">
@@ -353,7 +355,7 @@
                 <span class="text-xs text-emerald-400 font-medium bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">300 DPI</span>
               </div>
               <h4 class="text-sm font-semibold text-slate-200">Classic Portrait Size</h4>
-              <p class="text-xs text-slate-400 my-2">Prints: 11x14" (@300 DPI standalone frame)</p>
+              <p class="text-xs text-slate-400 my-2">Prints: 11x14" (standalone frame)</p>
             </div>
             <div>
               <div class="w-full h-36 bg-slate-950 rounded-xl border border-slate-800 flex items-center justify-center overflow-hidden mb-2 relative">
@@ -369,11 +371,11 @@
 
       <!-- Action Button & Progress -->
       <div class="pt-4 flex flex-col items-center gap-4">
-        <button id="btn-process" class="w-full sm:w-auto px-10 py-4 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-base transition-all shadow-xl shadow-indigo-600/30 hover:shadow-indigo-600/50 flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed">
+        <button id="btn-process" class="w-full sm:w-auto px-10 py-4 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-base transition-all shadow-xl shadow-indigo-600/30 hover:shadow-indigo-600/50 flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed">
           <span id="btn-icon">⚡</span>
           <span id="btn-text">Generate & Download Etsy 300 DPI ZIP (5 Files)</span>
         </button>
-        <p id="status-text" class="text-xs text-slate-500 mono h-4"></p>
+        <p id="status-text" role="status" class="text-xs text-slate-400 mono min-h-4 text-center"></p>
       </div>
 
     </div>
@@ -402,7 +404,7 @@
   </main>
 
   <!-- Footer -->
-  <footer class="border-t border-slate-800/60 py-8 text-center text-xs text-slate-500 space-y-3 pb-24 md:pb-8">
+  <footer class="border-t border-slate-800/60 py-8 text-center text-xs text-slate-400 space-y-3 pb-24 md:pb-8">
     <div class="flex flex-wrap items-center justify-center gap-4 text-slate-400 font-medium">
       <a href="/" class="hover:text-indigo-400 transition">Home</a>
       <span>·</span>
@@ -419,7 +421,7 @@
     <p>
       Crafted with ⚡ by <a href="https://github.com/XuChenXinXc" target="_blank" rel="noopener noreferrer" class="text-indigo-400 hover:text-indigo-300 font-semibold underline decoration-indigo-400/40">@XuChenXinXc</a> · Built for independent creators and print-on-demand sellers.
     </p>
-    <p class="text-slate-600">
+    <p>
       Open source under MIT License · All rights reserved © 2026
     </p>
   </footer>
@@ -433,7 +435,7 @@
       </span>
       <span class="text-[10px] text-slate-400 truncate">100% Client-Side · Free Forever</span>
     </div>
-    <button id="mobile-sticky-btn" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 active:scale-95 text-white font-bold text-xs tracking-tight transition flex items-center gap-1.5 shrink-0 shadow-lg shadow-indigo-600/30">
+    <button id="mobile-sticky-btn" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-bold text-xs tracking-tight transition flex items-center gap-1.5 shrink-0 shadow-lg shadow-indigo-600/30">
       <span>⚡</span>
       <span id="mobile-sticky-btn-text">Select Artwork</span>
     </button>
@@ -452,6 +454,13 @@
 
     let sourceImage = null;
     let sourceFileName = "artwork";
+    let isProcessing = false;
+    let isLoading = false;
+    let loadRequestId = 0;
+    // Object URL of the loaded artwork, revoked when the artwork is replaced or reset
+    let sourceUrl = null;
+    // Etsy states "20MB" per file; decimal bytes keep the check valid under either MB convention
+    const ETSY_MAX_FILE_BYTES = 20 * 1000 * 1000;
 
     const dropZone = document.getElementById("drop-zone");
     const fileInput = document.getElementById("file-input");
@@ -465,28 +474,60 @@
     const btnText = document.getElementById("btn-text");
     const statusText = document.getElementById("status-text");
     const btnReset = document.getElementById("btn-reset");
+    const uploadStatus = document.getElementById("upload-status");
+
+    function updateControls() {
+      btnProcess.disabled = isProcessing || isLoading || !sourceImage;
+      btnReset.disabled = isProcessing;
+      fileInput.disabled = isProcessing;
+      document.getElementById("crop-strategy").disabled = isProcessing;
+      dropZone.setAttribute("aria-disabled", String(isProcessing));
+      dropZone.classList.toggle("opacity-50", isProcessing);
+      updateMobileStickyState();
+    }
+
+    function clearSource() {
+      sourceImage = null;
+      sourceFileName = "artwork";
+      previewThumb.removeAttribute("src");
+      if (sourceUrl) {
+        URL.revokeObjectURL(sourceUrl);
+        sourceUrl = null;
+      }
+      workspace.classList.add("hidden");
+      statusText.textContent = "";
+      btnText.textContent = "Generate & Download Etsy 300 DPI ZIP (5 Files)";
+    }
 
     // Reset handler to upload a new artwork cleanly
     if (btnReset) {
       btnReset.addEventListener("click", () => {
-        sourceImage = null;
-        sourceFileName = "artwork";
+        if (isProcessing) return;
+        loadRequestId++;
+        isLoading = false;
+        clearSource();
         fileInput.value = "";
-        workspace.classList.add("hidden");
-        statusText.textContent = "";
-        btnText.textContent = "Generate & Download Etsy 300 DPI ZIP (5 Files)";
-        updateMobileStickyState();
+        uploadStatus.classList.add("hidden");
+        updateControls();
         dropZone.scrollIntoView({ behavior: 'smooth' });
       });
     }
 
     // Click drop-zone to trigger native file picker reliably
     dropZone.addEventListener("click", (e) => {
+      if (isProcessing) return;
       // Prevent double trigger if clicked directly on input or child
       if (e.target === fileInput) return;
       // Reset input value before open to ensure selecting the exact same file re-triggers 'change'
       fileInput.value = "";
       fileInput.click();
+    });
+
+    // Keyboard access: Enter / Space on the focused drop-zone behaves like a click
+    dropZone.addEventListener("keydown", (e) => {
+      if (e.key !== "Enter" && e.key !== " ") return;
+      e.preventDefault();
+      dropZone.click();
     });
 
     // File selection handler
@@ -498,6 +539,7 @@
     // Drag and drop handlers
     dropZone.addEventListener("dragover", (e) => {
       e.preventDefault();
+      if (isProcessing) return;
       dropZone.classList.add("border-indigo-500", "bg-slate-900/80");
     });
 
@@ -513,14 +555,27 @@
       }
     });
 
-    function handleFile(file) {
-      if (!file) return;
+    // Keep a file dropped outside the drop-zone from making the browser open it and leave the app
+    window.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      if (e.dataTransfer && !dropZone.contains(e.target)) e.dataTransfer.dropEffect = "none";
+    });
+    window.addEventListener("drop", (e) => e.preventDefault());
 
+    function showUploadError(message) {
+      fileInput.value = "";
+      uploadStatus.textContent = message;
+      uploadStatus.classList.remove("hidden");
+    }
+
+    function handleFile(file) {
+      if (!file || isProcessing) return;
+
+      // Synchronous checks run before clearing, so a rejected file keeps the current artwork
       // File size enforcement: 50MB physical boundary
       const maxSizeBytes = 50 * 1024 * 1024;
       if (file.size > maxSizeBytes) {
-        alert("The selected file exceeds the 50MB limit (" + (file.size / (1024 * 1024)).toFixed(1) + "MB). Please upload an image under 50MB to prevent browser tab crashes.");
-        fileInput.value = "";
+        showUploadError("The selected file exceeds the 50MB limit (" + (file.size / (1024 * 1024)).toFixed(1) + "MB). Please choose an image under 50MB.");
         return;
       }
 
@@ -528,63 +583,105 @@
       const validTypes = ["image/jpeg", "image/png", "image/webp"];
       const ext = file.name.substring(file.name.lastIndexOf(".")).toLowerCase();
       if (!validTypes.includes(file.type) && !['.jpg', '.jpeg', '.png', '.webp'].includes(ext)) {
-        alert("Please upload a static high-res artwork (JPG, PNG, or WEBP). Animated GIFs or unsupported formats are not suitable for wall art printing.");
-        fileInput.value = "";
+        showUploadError("Please choose a static JPG, PNG, or WEBP image. This file format is not supported.");
         return;
       }
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const img = new Image();
-        img.onload = () => {
-          sourceImage = img;
-          const dotIdx = file.name.lastIndexOf(".");
-          sourceFileName = dotIdx > 0 ? file.name.substring(0, dotIdx) : (file.name || "artwork");
-          workspace.classList.remove("hidden");
-          previewThumb.src = event.target.result;
-          srcName.textContent = file.name;
-          srcDimensions.textContent = `${img.width} × ${img.height} px`;
-          srcSize.textContent = `${(file.size / (1024 * 1024)).toFixed(2)} MB`;
-          const currentRatio = (img.width / img.height).toFixed(2);
-          srcRatio.textContent = `Aspect Ratio: ${currentRatio}`;
 
-          updateCalculatedDimensions(img.width, img.height);
-          renderPreflightQuality(img.width, img.height);
-          renderAllLivePreviews();
-          updateMobileStickyState();
-          workspace.scrollIntoView({ behavior: 'smooth' });
-        };
-        img.src = event.target.result;
+      const requestId = ++loadRequestId;
+      isLoading = true;
+      clearSource();
+      uploadStatus.classList.add("hidden");
+      updateControls();
+
+      function failUpload(message) {
+        if (requestId !== loadRequestId) return;
+        isLoading = false;
+        showUploadError(message);
+        updateControls();
+      }
+
+      // Load through an object URL: it points at the file itself instead of copying it into a base64 data URL
+      const objectUrl = URL.createObjectURL(file);
+      const img = new Image();
+      img.onerror = () => {
+        URL.revokeObjectURL(objectUrl);
+        failUpload("Unable to read or decode this image. The file may be damaged, moved, or unsupported. Please choose a valid JPG, PNG, or WEBP image.");
       };
-      reader.readAsDataURL(file);
+      img.onload = () => {
+        if (requestId !== loadRequestId) {
+          URL.revokeObjectURL(objectUrl);
+          return;
+        }
+        sourceImage = img;
+        sourceUrl = objectUrl;
+        isLoading = false;
+        const rawName = file.name || "artwork";
+        const dotIdx = rawName.lastIndexOf(".");
+        let cleanBase = dotIdx > 0 ? rawName.substring(0, dotIdx) : rawName;
+        // Sanitize base filename for Etsy standard (ASCII letters, digits, _, - only, max 45 chars);
+        // trim edge underscores after truncating so fully non-ASCII names fall back to "artwork"
+        cleanBase = cleanBase.replace(/[^a-zA-Z0-9_-]/g, "_").replace(/_+/g, "_").substring(0, 45).replace(/^_+|_+$/g, "") || "artwork";
+        sourceFileName = cleanBase;
+        workspace.classList.remove("hidden");
+        previewThumb.src = objectUrl;
+        srcName.textContent = file.name;
+        srcDimensions.textContent = `${img.width} × ${img.height} px`;
+        srcSize.textContent = `${(file.size / (1024 * 1024)).toFixed(2)} MB`;
+        const currentRatio = (img.width / img.height).toFixed(2);
+        srcRatio.textContent = `Aspect Ratio: ${currentRatio}`;
+
+        updateCalculatedDimensions(img.width, img.height);
+        renderPreflightQuality(img.width, img.height, document.getElementById("crop-strategy").value);
+        renderAllLivePreviews();
+        updateControls();
+        workspace.scrollIntoView({ behavior: 'smooth' });
+      };
+      img.src = objectUrl;
     }
 
-    // Preflight Resolution Quality Auditor across typical physical print sizes
-    function renderPreflightQuality(srcW, srcH) {
+    // Share export dimensions and effective image detail between the UI and customer guide.
+    function getOutputDimensions(srcW, srcH, ratio) {
+      const longEdge = Math.min(Math.max(srcW, srcH), ratio.maxLong);
+      const shortEdge = Math.max(1, Math.round(longEdge * ratio.w / ratio.h));
+      return srcH >= srcW ? { width: shortEdge, height: longEdge } : { width: longEdge, height: shortEdge };
+    }
+
+    function getPrintPpi(srcW, srcH, ratio, printLongInches, strategy) {
+      const { width, height } = getOutputDimensions(srcW, srcH, ratio);
+      const scale = strategy.startsWith("fit")
+        ? Math.min(width / srcW, height / srcH)
+        : Math.max(width / srcW, height / srcH);
+      // Upsampling adds pixels without adding detail; downsampling is limited by the export size.
+      return Math.round(Math.max(width, height) / Math.max(1, scale) / printLongInches);
+    }
+
+    function renderPreflightQuality(srcW, srcH, strategy = "center") {
       const preflightGrid = document.getElementById("preflight-grid");
       if (!preflightGrid) return;
 
-      const longEdge = Math.max(srcW, srcH);
-      const testSizes = [
-        { label: "8×10\"", inches: 10 },
-        { label: "12×18\"", inches: 18 },
-        { label: "16×24\"", inches: 24 },
-        { label: "24×36\"", inches: 36 }
+      const benchmarkSizes = [
+        { label: "8×10\" (4:5)", ratioId: "4-5", longInches: 10 },
+        { label: "11×14\" (11:14)", ratioId: "11-14", longInches: 14 },
+        { label: "16×24\" (2:3)", ratioId: "2-3", longInches: 24 },
+        { label: "24×36\" (2:3)", ratioId: "2-3", longInches: 36 }
       ];
 
-      preflightGrid.innerHTML = testSizes.map(t => {
-        const calculatedPpi = Math.round(longEdge / t.inches);
+      preflightGrid.innerHTML = benchmarkSizes.map(t => {
+        const ratio = RATIOS.find(r => r.id === t.ratioId);
+        const calculatedPpi = getPrintPpi(srcW, srcH, ratio, t.longInches, strategy);
+
         let statusBadge = "";
         let statusBorder = "";
         let qualityText = "";
 
         if (calculatedPpi >= 300) {
-          statusBadge = '<span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/20">300+ PPI · Flawless</span>';
+          statusBadge = '<span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/20">' + calculatedPpi + ' PPI · Flawless</span>';
           statusBorder = 'border-emerald-500/30 bg-emerald-950/20';
-          qualityText = 'Gallery Master Quality';
+          qualityText = 'Gallery Fine Art Master';
         } else if (calculatedPpi >= 200) {
           statusBadge = '<span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-amber-500/15 text-amber-400 border border-amber-500/20">' + calculatedPpi + ' PPI · Good</span>';
           statusBorder = 'border-amber-500/30 bg-amber-950/20';
-          qualityText = 'Standard Print Quality';
+          qualityText = 'Standard Commercial Print';
         } else {
           statusBadge = '<span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-rose-500/15 text-rose-400 border border-rose-500/20">' + calculatedPpi + ' PPI · Low</span>';
           statusBorder = 'border-rose-500/30 bg-rose-950/20';
@@ -593,7 +690,7 @@
 
         return `
           <div class="rounded-xl border ${statusBorder} p-2.5 flex flex-col justify-between space-y-1.5 text-left">
-            <div class="flex items-center justify-between">
+            <div class="flex flex-wrap items-center justify-between gap-1">
               <span class="text-xs font-bold text-slate-200">${t.label}</span>
               ${statusBadge}
             </div>
@@ -606,23 +703,10 @@
     }
 
     function updateCalculatedDimensions(srcW, srcH) {
-      const isPortrait = srcH >= srcW;
-
       RATIOS.forEach(r => {
-        let targetW, targetH;
-        let aspect = r.w / r.h;
-        if (!isPortrait) aspect = 1 / aspect; // adapt for landscape
-
-        if (isPortrait) {
-          targetH = Math.min(srcH, r.maxLong);
-          targetW = Math.round(targetH * (r.w / r.h));
-        } else {
-          targetW = Math.min(srcW, r.maxLong);
-          targetH = Math.round(targetW * (r.w / r.h));
-        }
-
+        const { width, height } = getOutputDimensions(srcW, srcH, r);
         const el = document.getElementById(`dim-${r.id}`);
-        if (el) el.textContent = `${targetW} × ${targetH} px @ 300 DPI`;
+        if (el) el.textContent = `${width} × ${height} px @ 300 DPI`;
       });
     }
 
@@ -630,10 +714,42 @@
     const cropStrategySelect = document.getElementById("crop-strategy");
     if (cropStrategySelect) {
       cropStrategySelect.addEventListener("change", () => {
-        if (sourceImage) {
+        if (sourceImage && !isProcessing) {
           renderAllLivePreviews();
+          renderPreflightQuality(sourceImage.width, sourceImage.height, cropStrategySelect.value);
         }
       });
+    }
+
+    // Average the artwork's outermost pixel ring instead of 4 single corner pixels,
+    // so JPEG noise, a corner signature or a logo cannot dominate the margin tone
+    function getEdgeColor(img) {
+      const size = 64;
+      const sample = document.createElement("canvas");
+      sample.width = size;
+      sample.height = size;
+      const ctx = sample.getContext("2d");
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, size, size);
+      // Squeeze each outermost row / column into the matching edge of the sample canvas
+      ctx.drawImage(img, 0, 0, img.width, 1, 0, 0, size, 1);
+      ctx.drawImage(img, 0, img.height - 1, img.width, 1, 0, size - 1, size, 1);
+      ctx.drawImage(img, 0, 0, 1, img.height, 0, 0, 1, size);
+      ctx.drawImage(img, img.width - 1, 0, 1, img.height, size - 1, 0, 1, size);
+      const pixels = ctx.getImageData(0, 0, size, size).data;
+      const totals = [0, 0, 0];
+      let count = 0;
+      for (let y = 0; y < size; y++) {
+        for (let x = 0; x < size; x++) {
+          if (x > 0 && x < size - 1 && y > 0 && y < size - 1) continue;
+          const i = (y * size + x) * 4;
+          totals[0] += pixels[i];
+          totals[1] += pixels[i + 1];
+          totals[2] += pixels[i + 2];
+          count++;
+        }
+      }
+      return `rgb(${totals.map(total => Math.round(total / count)).join(", ")})`;
     }
 
     // Live Preview Renderer: Renders real-time thumbnail into each card's canvas
@@ -643,22 +759,7 @@
       const isPortrait = sourceImage.height >= sourceImage.width;
 
       // Pre-sample edge tone once outside ratio loop if fit-edge strategy is active
-      let cachedEdgeColor = "#ffffff";
-      if (strategy === "fit-edge") {
-        try {
-          const sc = document.createElement("canvas");
-          sc.width = 2; sc.height = 2;
-          const sCtx = sc.getContext("2d");
-          sCtx.drawImage(sourceImage, 0, 0, sourceImage.width, sourceImage.height, 0, 0, 2, 2);
-          const p = sCtx.getImageData(0, 0, 2, 2).data;
-          const avgR = Math.round((p[0] + p[4] + p[8] + p[12]) / 4);
-          const avgG = Math.round((p[1] + p[5] + p[9] + p[13]) / 4);
-          const avgB = Math.round((p[2] + p[6] + p[10] + p[14]) / 4);
-          cachedEdgeColor = `rgb(${avgR}, ${avgG}, ${avgB})`;
-        } catch(e) {
-          cachedEdgeColor = "#ffffff";
-        }
-      }
+      const cachedEdgeColor = strategy === "fit-edge" ? getEdgeColor(sourceImage) : "#ffffff";
 
       RATIOS.forEach(r => {
         const previewCanvas = document.getElementById(`preview-canvas-${r.id}`);
@@ -703,15 +804,21 @@
           }
           pCtx.drawImage(sourceImage, 0, 0, sourceImage.width, sourceImage.height, dX, dY, dW, dH);
         } else {
-          // Cropping mode with anchor support
+          // Cropping mode with anchor support (center, top, bottom, left, right)
           const targetAspect = thumbW / thumbH;
           const srcAspect = sourceImage.width / sourceImage.height;
           let sW, sH, sX, sY;
           if (srcAspect > targetAspect) {
             sH = sourceImage.height;
             sW = sourceImage.height * targetAspect;
-            sX = (sourceImage.width - sW) / 2;
             sY = 0;
+            if (strategy === "left") {
+              sX = 0;
+            } else if (strategy === "right") {
+              sX = sourceImage.width - sW;
+            } else {
+              sX = (sourceImage.width - sW) / 2;
+            }
           } else {
             sW = sourceImage.width;
             sH = sourceImage.width / targetAspect;
@@ -735,6 +842,9 @@
       canvas.width = targetW;
       canvas.height = targetH;
       const ctx = canvas.getContext("2d");
+      const sizeLimitMessage = `This browser cannot create a ${targetW} × ${targetH} px image (a common limit on iPhone and iPad). Please use a desktop browser or a smaller source image.`;
+      // Safari returns no 2D context once total canvas memory exceeds its limit
+      if (!ctx) throw new Error(sizeLimitMessage);
 
       // High-quality image smoothing
       ctx.imageSmoothingEnabled = true;
@@ -744,25 +854,18 @@
       ctx.fillStyle = "#ffffff";
       ctx.fillRect(0, 0, targetW, targetH);
 
+      // iOS Safari and other memory-limited browsers return a blank canvas above their size limit instead of throwing.
+      // Test for alpha 0 rather than 255: Safari's fingerprinting protection may add noise to opaque pixels, never to transparent ones
+      if (ctx.getImageData(targetW - 1, targetH - 1, 1, 1).data[3] === 0) {
+        throw new Error(sizeLimitMessage);
+      }
+
       if (strategy.startsWith("fit")) {
         let bgColor = "#ffffff";
         if (strategy === "fit-black") {
           bgColor = "#000000";
         } else if (strategy === "fit-edge") {
-          // Sample 4 corner pixels for natural boundary color tone
-          try {
-            const sc = document.createElement("canvas");
-            sc.width = 2; sc.height = 2;
-            const sCtx = sc.getContext("2d");
-            sCtx.drawImage(img, 0, 0, img.width, img.height, 0, 0, 2, 2);
-            const p = sCtx.getImageData(0, 0, 2, 2).data;
-            const avgR = Math.round((p[0] + p[4] + p[8] + p[12]) / 4);
-            const avgG = Math.round((p[1] + p[5] + p[9] + p[13]) / 4);
-            const avgB = Math.round((p[2] + p[6] + p[10] + p[14]) / 4);
-            bgColor = `rgb(${avgR}, ${avgG}, ${avgB})`;
-          } catch (e) {
-            bgColor = "#ffffff";
-          }
+          bgColor = getEdgeColor(img);
         }
         ctx.fillStyle = bgColor;
         ctx.fillRect(0, 0, targetW, targetH);
@@ -786,7 +889,7 @@
         }
         ctx.drawImage(img, 0, 0, img.width, img.height, drawX, drawY, drawW, drawH);
       } else {
-        // Cropping mode: support center, top (face/portrait safe), and bottom anchors
+        // Cropping mode: support center, top (face/portrait safe), bottom, left and right anchors
         const targetAspect = targetW / targetH;
         const srcAspect = img.width / img.height;
         let drawW, drawH, drawX, drawY;
@@ -795,8 +898,14 @@
           // Source is wider than target: fit height, crop width horizontally
           drawH = img.height;
           drawW = img.height * targetAspect;
-          drawX = (img.width - drawW) / 2;
           drawY = 0;
+          if (strategy === "left") {
+            drawX = 0;
+          } else if (strategy === "right") {
+            drawX = img.width - drawW;
+          } else {
+            drawX = (img.width - drawW) / 2;
+          }
         } else {
           // Source is taller than target: fit width, crop height vertically
           drawW = img.width;
@@ -822,10 +931,10 @@
     // Binary JFIF Modifier to guarantee true 300 DPI metadata in JPEG output
     // If APP0 marker is missing, injects a standard 18-byte JFIF APP0 header after SOI (0xFFD8)
     function setDpiInJpeg(blob, dpi = 300) {
-      return new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.onload = function() {
-          const arrayBuffer = this.result;
+      return new Promise((resolve, reject) => {
+        // blob.arrayBuffer() rejects on read failure and .catch(reject) also surfaces parsing errors,
+        // so the export can never hang on a promise that never settles
+        blob.arrayBuffer().then((arrayBuffer) => {
           const view = new DataView(arrayBuffer);
 
           // Check if valid JPEG (SOI marker 0xFFD8)
@@ -894,39 +1003,69 @@
 
             resolve(new Blob([newBytes.buffer], { type: "image/jpeg" }));
           }
-        };
-        reader.readAsArrayBuffer(blob);
+        }).catch(reject);
       });
     }
 
-    // Customer Cheat Sheet Guide with Honest Physical Resolutions & Print Size Matrix
-    function generatePrintGuide(baseName, srcW, srcH) {
+    // Customer Cheat Sheet Guide with Dynamic Physical Resolutions based on Actual Uploaded Pixels
+    function generatePrintGuide(baseName, srcW, srcH, strategy = "center") {
       const prefix = baseName || "artwork";
+
+      function calcPpi(ratioId, printLongInches) {
+        return getPrintPpi(srcW, srcH, RATIOS.find(r => r.id === ratioId), printLongInches, strategy);
+      }
+
+      const ppi2x3_18 = calcPpi("2-3", 18);
+      const ppi2x3_24 = calcPpi("2-3", 24);
+      const ppi2x3_30 = calcPpi("2-3", 30);
+      const ppi2x3_36 = calcPpi("2-3", 36);
+
+      const ppi3x4_16 = calcPpi("3-4", 16);
+      const ppi3x4_24 = calcPpi("3-4", 24);
+
+      const ppi4x5_10 = calcPpi("4-5", 10);
+      const ppi4x5_20 = calcPpi("4-5", 20);
+
+      const ppiIso_A2 = calcPpi("iso", 23.4);
+      const ppiIso_A1 = calcPpi("iso", 33.1);
+
+      const ppi11x14 = calcPpi("11-14", 14);
+
+      function qualityTag(ppi) {
+        if (ppi >= 300) return `(300+ PPI - Flawless Gallery Master)`;
+        if (ppi >= 200) return `(${ppi} PPI - Standard Print Quality)`;
+        return `(${ppi} PPI - Low Resolution, Viewing distance > 4 feet)`;
+      }
+
       return `=====================================================
 ETSY CUSTOMER PRINTING SIZE & RESOLUTION GUIDE
 =====================================================
 Thank you for your purchase! Your digital package includes
 5 organized JPEG files with embedded 300 DPI metadata.
 
-Here is your packaged file manifest and recommended print sizes:
+Here is your packaged file manifest and custom print size recommendations
+based on available artwork detail, export dimensions, and the selected crop or margin strategy:
 
 1. FILE: ${prefix}_Ratio_2x3_300DPI.jpg (Poster & Gallery Sizes)
-   • 300 DPI Flawless Quality: 4x6", 8x12", 12x18", 16x24"
-   • 240 DPI Standard Quality: 20x30"
-   • 200 DPI Economy Quality: 24x36" (Viewing distance > 3 feet)
+   • 4x6" to 12x18": ${qualityTag(ppi2x3_18)}
+   • 16x24": ${qualityTag(ppi2x3_24)}
+   • 20x30": ${qualityTag(ppi2x3_30)}
+   • 24x36": ${qualityTag(ppi2x3_36)}
 
 2. FILE: ${prefix}_Ratio_3x4_300DPI.jpg (Standard Wall Frame Ratio)
-   • 300 DPI Flawless Quality: 6x8", 9x12", 12x16", 15x20", 18x24"
+   • 6x8" to 12x16": ${qualityTag(ppi3x4_16)}
+   • 18x24": ${qualityTag(ppi3x4_24)}
 
 3. FILE: ${prefix}_Ratio_4x5_300DPI.jpg (Home Decor & IKEA Frames)
-   • 300 DPI Flawless Quality: 4x5", 8x10", 12x15", 16x20"
+   • 4x5" to 8x10": ${qualityTag(ppi4x5_10)}
+   • 16x20": ${qualityTag(ppi4x5_20)}
 
 4. FILE: ${prefix}_ISO_A1_A4_300DPI.jpg (International Paper Sizes - UK / EU / AU)
-   • 300 DPI Flawless Quality: A5, A4, A3, A2
-   • 212 DPI Standard Quality: A1
+   • A5, A4, A3, A2: ${qualityTag(ppiIso_A2)}
+   • A1: ${qualityTag(ppiIso_A1)}
 
 5. FILE: ${prefix}_Ratio_11x14_300DPI.jpg (Classic Standalone Wall Frame)
-   • 300 DPI Flawless Quality: 11x14" (28x35cm)
+   • 11x14" (28x35cm): ${qualityTag(ppi11x14)}
 
 =====================================================
 HOW TO PRINT:
@@ -936,58 +1075,53 @@ HOW TO PRINT:
 =====================================================`;
     }
 
+    async function encodeJpegForEtsy(canvas, label) {
+      // Lower JPEG quality only when needed; retain the planned pixel dimensions.
+      for (const quality of [0.90, 0.85, 0.80, 0.75, 0.70]) {
+        const blob = await new Promise((resolve, reject) => {
+          canvas.toBlob(value => {
+            if (value) resolve(value);
+            else reject(new Error(`Failed to encode image for ${label}`));
+          }, "image/jpeg", quality);
+        });
+        const dpiBlob = await setDpiInJpeg(blob, 300);
+        if (dpiBlob.size <= ETSY_MAX_FILE_BYTES) return dpiBlob;
+      }
+      throw new Error(`${label} exceeds Etsy's 20MB limit at the supported JPEG quality levels. Please use a smaller source image.`);
+    }
+
     // Process & ZIP Bundle Generator
     btnProcess.addEventListener("click", async () => {
-      if (!sourceImage) return;
+      if (!sourceImage || isLoading || isProcessing) return;
 
-      btnProcess.disabled = true;
+      const exportImage = sourceImage;
+      const exportName = sourceFileName;
+      const selectedStrategy = cropStrategySelect.value;
+      isProcessing = true;
+      updateControls();
       btnText.textContent = "Processing 300 DPI Ratios...";
       statusText.textContent = "Initializing client-side canvas engine...";
 
       try {
         const zip = new JSZip();
-        const isPortrait = sourceImage.height >= sourceImage.width;
-
-        const cropStrategyEl = document.getElementById("crop-strategy");
-        const selectedStrategy = cropStrategyEl ? cropStrategyEl.value : "center";
-
-        // Quality setting: 0.90 is optimal balance between visual lossless reproduction and Etsy's 20MB file limit
-        const jpegQuality = 0.90;
 
         // Process each ratio sequentially with explicit memory cleanup
         for (let i = 0; i < RATIOS.length; i++) {
           const r = RATIOS[i];
           statusText.textContent = `Processing & Injecting 300 DPI for ${r.label} (${i + 1}/${RATIOS.length})...`;
 
-          let targetW, targetH;
-          if (isPortrait) {
-            targetH = Math.min(sourceImage.height, r.maxLong);
-            targetW = Math.round(targetH * (r.w / r.h));
-          } else {
-            // Landscape orientation: targetW is long edge, targetH is calculated from ratio
-            targetW = Math.min(sourceImage.width, r.maxLong);
-            targetH = Math.round(targetW * (r.w / r.h));
+          const { width, height } = getOutputDimensions(exportImage.width, exportImage.height, r);
+          const canvas = cropAndRender(exportImage, width, height, selectedStrategy);
+          let dpiBlob;
+          try {
+            dpiBlob = await encodeJpegForEtsy(canvas, r.label);
+          } finally {
+            canvas.width = 0;
+            canvas.height = 0;
           }
 
-          const canvas = cropAndRender(sourceImage, targetW, targetH, selectedStrategy);
-
-          // Convert canvas to JPEG blob
-          const rawBlob = await new Promise((res, rej) => {
-            canvas.toBlob((b) => {
-              if (b) res(b);
-              else rej(new Error(`Failed to encode image for ${r.label}`));
-            }, "image/jpeg", jpegQuality);
-          });
-
-          // Immediately release canvas graphics memory
-          canvas.width = 0;
-          canvas.height = 0;
-
-          // Inject 300 DPI JFIF metadata
-          const dpiBlob = await setDpiInJpeg(rawBlob, 300);
-
           // Add to zip
-          const fileName = `${sourceFileName}_${r.name}_300DPI.jpg`;
+          const fileName = `${exportName}_${r.name}_300DPI.jpg`;
           zip.file(fileName, dpiBlob);
 
           // Small yield to browser UI loop for smooth garbage collection
@@ -995,7 +1129,7 @@ HOW TO PRINT:
         }
 
         // Add Customer Guide with honest resolution guidelines
-        zip.file("Printing_Size_Guide.txt", generatePrintGuide(sourceFileName, sourceImage.width, sourceImage.height));
+        zip.file("Printing_Size_Guide.txt", generatePrintGuide(exportName, exportImage.width, exportImage.height, selectedStrategy));
 
         statusText.textContent = "Compressing into ZIP archive...";
         btnText.textContent = "Creating ZIP Bundle...";
@@ -1004,33 +1138,34 @@ HOW TO PRINT:
           statusText.textContent = `Packaging ZIP: ${metadata.percent.toFixed(0)}% completed`;
         });
 
-        const zipSizeMb = (zipBlob.size / (1024 * 1024)).toFixed(2);
-        const isEtsyCompliant = zipBlob.size <= 20 * 1024 * 1024;
+        // Decimal MB, matching ETSY_MAX_FILE_BYTES
+        const zipSizeMb = (zipBlob.size / (1000 * 1000)).toFixed(2);
+        const isEtsyCompliant = zipBlob.size <= ETSY_MAX_FILE_BYTES;
 
         // Trigger instant browser download
         const downloadUrl = URL.createObjectURL(zipBlob);
         const a = document.createElement("a");
         a.href = downloadUrl;
-        a.download = `${sourceFileName}_Etsy_Print_Pack.zip`;
+        a.download = `${exportName}_Etsy_Print_Pack.zip`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
-        URL.revokeObjectURL(downloadUrl);
+        // Revoke later: some Safari / Firefox versions cancel the download if the URL is revoked immediately
+        setTimeout(() => URL.revokeObjectURL(downloadUrl), 40000);
 
         if (isEtsyCompliant) {
           statusText.textContent = `✓ Downloaded (${zipSizeMb} MB) — Etsy 20MB Compliant!`;
         } else {
-          statusText.textContent = `⚠️ Downloaded (${zipSizeMb} MB) — Exceeds Etsy 20MB limit for single ZIP; consider uploading JPGs individually.`;
+          statusText.textContent = `✓ Downloaded (${zipSizeMb} MB) — Unzip and upload the 5 JPGs individually to Etsy; each JPG is within the 20MB limit. Etsy allows 5 files per listing, so paste the text of Printing_Size_Guide.txt into your listing description.`;
         }
         btnText.textContent = "Downloaded! Process Another?";
-        updateMobileStickyState();
       } catch (err) {
         console.error(err);
         statusText.textContent = "Error during processing: " + err.message;
         btnText.textContent = "Failed. Try Again";
-        updateMobileStickyState();
       } finally {
-        btnProcess.disabled = false;
+        isProcessing = false;
+        updateControls();
       }
     });
 
@@ -1041,7 +1176,12 @@ HOW TO PRINT:
 
     function updateMobileStickyState() {
       if (!mobileStickyBtnText) return;
-      if (sourceImage) {
+      mobileStickyBtn.disabled = isProcessing || isLoading;
+      if (isProcessing) {
+        mobileStickyBtnText.textContent = "Processing...";
+      } else if (isLoading) {
+        mobileStickyBtnText.textContent = "Loading...";
+      } else if (sourceImage) {
         mobileStickyBtnText.textContent = "Download 300 DPI ZIP";
       } else {
         mobileStickyBtnText.textContent = "Select Artwork";
@@ -1050,6 +1190,7 @@ HOW TO PRINT:
 
     if (mobileStickyBtn) {
       mobileStickyBtn.addEventListener("click", () => {
+        if (isProcessing || isLoading) return;
         if (!sourceImage) {
           dropZone.scrollIntoView({ behavior: 'smooth' });
           fileInput.value = "";
@@ -1070,6 +1211,7 @@ HOW TO PRINT:
         mobileStickyBar.classList.add("translate-y-full");
       }
     }, { passive: true });
+    updateControls();
   </script>
 </body>
 </html>

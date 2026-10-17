@@ -9,7 +9,7 @@ EtsyArtPacker solves the primary friction point for printable wall art sellers: 
 - **Client-Side Privacy Engine**: 0% server uploads. All image transformations happen via browser Canvas.
 - **5-in-1 Standard Ratios**: 2:3, 3:4, 4:5, ISO (A1-A5), and 11:14.
 - **300 DPI Metadata Injection**: Automatically sets JFIF resolution density to 300 DPI for high-quality printing standard validation.
-- **Bundled ZIP Export**: Downloads organized, pre-labeled JPEG packages under Etsy's 20MB listing file limit.
+- **Bundled ZIP Export**: Downloads organized, pre-labeled JPEGs, each within Etsy's 20MB listing file limit. If the ZIP exceeds 20MB, extract it and upload the five JPEGs individually.
 
 ## Target Audience
 - Etsy Printable Art Sellers

@@ -1,5 +1,7 @@
 # Dependencies & Tools
 node_modules/
+__pycache__/
+.pytest_cache/
 .playwright-mcp/
 temp/
 *.log

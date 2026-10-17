@@ -5,7 +5,7 @@
 [![Platform](https://img.shields.io/badge/Platform-Web%20%7C%20Client--Side-indigo.svg?style=flat-square)](https://etsyartpacker.com/)
 [![Zero Upload](https://img.shields.io/badge/Privacy-100%25%20In--Browser-green.svg?style=flat-square)](https://etsyartpacker.com/)
 
-> **EtsyArtPacker** is an open-source, client-side image processing utility engineered for Etsy digital art sellers and Print-on-Demand (POD) creators. It automatically transforms a single high-resolution artwork into the **5 standard gallery frame ratios**, injects true **300 DPI** metadata into the binary headers, and bundles everything into an **Etsy-compliant ZIP package** in seconds.
+> **EtsyArtPacker** is an open-source, client-side image processing utility engineered for Etsy digital art sellers and Print-on-Demand (POD) creators. It automatically transforms a single high-resolution artwork into the **5 standard gallery frame ratios**, injects true **300 DPI** metadata into the binary headers, and bundles everything into a **ready-to-sell ZIP package** in seconds, keeping every JPG within Etsy's 20MB per-file limit.
 
 [**Explore Live Demo »**](https://etsyartpacker.com/)
 
@@ -30,7 +30,7 @@ EtsyArtPacker calculates and exports each ratio based on maximum standard wall f
 | **2:3 Ratio** | **7200 × 4800 px** (or 4800 × 7200) | `4x6"`, `8x12"`, `12x18"`, `16x24"` | `20x30"` (@240 DPI), `24x36"` (@200 DPI) |
 | **3:4 Ratio** | **7200 × 5400 px** (or 5400 × 7200) | `6x8"`, `9x12"`, `12x16"`, `15x20"`, `18x24"` | Standard photography & gallery frames |
 | **4:5 Ratio** | **6000 × 4800 px** (or 4800 × 6000) | `4x5"`, `8x10"`, `12x15"`, `16x20"` | Home decor, classic photo frames, IKEA frames |
-| **ISO A-Series**| **7016 × 4960 px** (or 4960 × 7016) | `A5`, `A4`, `A3`, `A2` | `A1` (@212 DPI) |
+| **ISO A-Series**| **7016 × 4961 px** (or 4961 × 7016) | `A5`, `A4`, `A3`, `A2` | `A1` (@212 DPI) |
 | **11:14 Ratio** | **4200 × 3300 px** (or 3300 × 4200) | `11x14"` | Popular North American standalone portrait frame |
 
 *Note: The exporter automatically detects whether the input artwork is portrait or landscape and applies corresponding dimension boundaries.*
@@ -91,6 +91,28 @@ npx serve .
 # Navigate to: http://localhost:3000
 ```
 
+### Rebuilding Styles
+
+Tailwind CSS is precompiled into `assets/tailwind.css` (v3.4.17) and JSZip is vendored as `assets/jszip.min.js` (v3.10.1), so neither is loaded from a CDN at runtime. After changing Tailwind classes in any HTML page, rebuild the stylesheet:
+
+```bash
+npx tailwindcss@3.4.17 --content "./index.html,./privacy/index.html,./terms/index.html" -o assets/tailwind.css --minify
+```
+
+The regression tests fail if a class used on the pages or in the main app states has no rule in `assets/tailwind.css`, so a forgotten rebuild is caught.
+
+---
+
+## 🧪 Regression Tests
+
+The browser regression tests cover image loading, export consistency, crop anchors, file naming, print quality estimates, Etsy file size limits, keyboard access, responsive controls, and prebuilt stylesheet coverage. All third-party requests (ads, fonts, analytics) are blocked during the run, so no network access is needed once the tools are installed:
+
+```bash
+python -m pip install pytest playwright pillow
+python -m playwright install chromium
+python -m pytest tests -q
+```
+
 ---
 
 ## 🌐 Production Deployment
@@ -109,6 +131,8 @@ Deploy to modern serverless edge platforms with a single click or Git push:
 3. Output directory: `/`.
 4. Click **Deploy Site**.
 
+> The `/_vercel/insights` and `/_vercel/speed-insights` scripts in `index.html` only work on Vercel. Remove them when deploying elsewhere, otherwise they return 404.
+
 ---
 
 ## 📄 License & Ownership
@@ -118,9 +142,6 @@ Distributed under the **MIT License**. Copyright (c) 2026 **[XuChenXinXc](https:
 ---
 
 ## 🤝 Contributing
-
-Contributions, feature suggestions, and pull requests are warmly welcomed!  
-If you find this tool helpful for your digital product store, please consider giving this repository a ⭐️!
 
 Contributions, feature suggestions, and pull requests are warmly welcomed!  
 If you find this tool helpful for your digital product store, please consider giving this repository a ⭐️!
