@@ -117,6 +117,22 @@
               "@type": "Answer",
               "text": "Yes. You retain full commercial rights to all resized files generated through the tool. No watermarks are added, and no royalties or attribution are required."
             }
+          },
+          {
+            "@type": "Question",
+            "name": "What should I do if the downloaded ZIP exceeds Etsy's 20MB file limit?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Etsy imposes a strict 20MB limit on each uploaded file. While EtsyArtPacker compresses each individual JPEG below 20MB, bundling all 5 ultra-high-resolution images into a single ZIP may occasionally exceed 20MB. Simply unzip the package on your computer and upload the 5 individual JPEG files directly to your Etsy listing."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why do fine art prints require 300 DPI (PPI)?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "At 300 pixels per inch, human eyes cannot discern individual ink dots at normal gallery viewing distances (12 to 24 inches). Print-on-demand services like Printify, Gelato, and Gooten require 300 DPI files to prevent blurry or pixelated art prints and minimize buyer return requests."
+            }
           }
         ]
       }
@@ -401,6 +417,182 @@
         </p>
       </div>
     </div>
+
+    <!-- Section 1: Standard Ratio & Print Frame Size Matrix -->
+    <section class="mt-16 border-t border-slate-800/80 pt-12">
+      <div class="text-center max-w-2xl mx-auto mb-8">
+        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-semibold mb-3">
+          📐 Seller Reference Matrix
+        </div>
+        <h2 class="text-2xl font-bold text-white tracking-tight mb-2">
+          Wall Art Print Ratio & Frame Size Cheat Sheet
+        </h2>
+        <p class="text-xs text-slate-400 leading-relaxed">
+          Etsy digital art buyers expect files categorized into standard aspect ratios. Offering these 5 ratios guarantees your artwork fits over 30+ international frame standards without distortion.
+        </p>
+      </div>
+
+      <div class="overflow-x-auto rounded-2xl border border-slate-800 bg-slate-900/40">
+        <table class="w-full text-left text-xs text-slate-300">
+          <thead class="bg-slate-900/90 text-[11px] font-bold text-slate-200 border-b border-slate-800 uppercase tracking-wider">
+            <tr>
+              <th scope="col" class="px-4 py-3.5">Ratio Family</th>
+              <th scope="col" class="px-4 py-3.5">Target Max Pixels (@300 DPI)</th>
+              <th scope="col" class="px-4 py-3.5">Supported Frame Sizes (Inches / CM)</th>
+              <th scope="col" class="px-4 py-3.5 hidden md:table-cell">Popular Markets & Uses</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-800/70 font-normal">
+            <tr class="hover:bg-slate-800/30 transition">
+              <td class="px-4 py-3 font-semibold text-indigo-400 whitespace-nowrap">2:3 Ratio</td>
+              <td class="px-4 py-3 mono text-slate-200 whitespace-nowrap">7200 × 4800 px</td>
+              <td class="px-4 py-3">4×6", 8×12", 12×18", 16×24", 20×30", 24×36" (10×15 to 60×90 cm)</td>
+              <td class="px-4 py-3 text-slate-400 hidden md:table-cell">Classic 35mm photography, large living room gallery posters</td>
+            </tr>
+            <tr class="hover:bg-slate-800/30 transition">
+              <td class="px-4 py-3 font-semibold text-sky-400 whitespace-nowrap">3:4 Ratio</td>
+              <td class="px-4 py-3 mono text-slate-200 whitespace-nowrap">7200 × 5400 px</td>
+              <td class="px-4 py-3">6×8", 9×12", 12×16", 15×20", 18×24", 24×32" (15×20 to 60×80 cm)</td>
+              <td class="px-4 py-3 text-slate-400 hidden md:table-cell">Gallery exhibitions, bedroom frames, standard photo prints</td>
+            </tr>
+            <tr class="hover:bg-slate-800/30 transition">
+              <td class="px-4 py-3 font-semibold text-purple-400 whitespace-nowrap">4:5 Ratio</td>
+              <td class="px-4 py-3 mono text-slate-200 whitespace-nowrap">6000 × 4800 px</td>
+              <td class="px-4 py-3">4×5", 8×10", 12×15", 16×20", 24×30" (20×25 to 40×50 cm)</td>
+              <td class="px-4 py-3 text-slate-400 hidden md:table-cell">Most common home decor size, standard IKEA Ribba frames</td>
+            </tr>
+            <tr class="hover:bg-slate-800/30 transition">
+              <td class="px-4 py-3 font-semibold text-amber-400 whitespace-nowrap">ISO A-Series</td>
+              <td class="px-4 py-3 mono text-slate-200 whitespace-nowrap">7016 × 4961 px</td>
+              <td class="px-4 py-3">A5 (14.8×21cm), A4 (21×29.7cm), A3 (29.7×42cm), A2, A1</td>
+              <td class="px-4 py-3 text-slate-400 hidden md:table-cell">UK, Europe, Australia, Japan & international standard paper sizing</td>
+            </tr>
+            <tr class="hover:bg-slate-800/30 transition">
+              <td class="px-4 py-3 font-semibold text-rose-400 whitespace-nowrap">11:14 Ratio</td>
+              <td class="px-4 py-3 mono text-slate-200 whitespace-nowrap">4200 × 3300 px</td>
+              <td class="px-4 py-3">11×14" (approx. 28×35.5 cm)</td>
+              <td class="px-4 py-3 text-slate-400 hidden md:table-cell">US portrait standard frame, tabletop & entryway frames</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Section 2: Guide - How to Package and Sell Digital Wall Art on Etsy -->
+    <section class="mt-16 border-t border-slate-800/80 pt-12">
+      <div class="text-center max-w-2xl mx-auto mb-10">
+        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold mb-3">
+          📚 Comprehensive Seller Workflow
+        </div>
+        <h2 class="text-2xl font-bold text-white tracking-tight mb-2">
+          How to Package and Deliver Digital Wall Art on Etsy
+        </h2>
+        <p class="text-xs text-slate-400 leading-relaxed">
+          Follow this 4-step streamlined workflow to ensure five-star reviews and minimize customer frame mismatch inquiries.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="p-5 rounded-2xl border border-slate-800 bg-slate-900/40 space-y-3">
+          <div class="w-8 h-8 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold text-sm">
+            1
+          </div>
+          <h3 class="text-base font-bold text-slate-100">Prepare Your Master Artwork</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Export your artwork from Midjourney, Stable Diffusion, Procreate, or Photoshop in the highest resolution possible (ideally 4000px+ on the long edge) in JPG, PNG, or WEBP format. High source resolution ensures crisp output even on large 24x36" poster frames.
+          </p>
+        </div>
+
+        <div class="p-5 rounded-2xl border border-slate-800 bg-slate-900/40 space-y-3">
+          <div class="w-8 h-8 rounded-lg bg-sky-500/10 border border-sky-500/20 text-sky-400 flex items-center justify-center font-bold text-sm">
+            2
+          </div>
+          <h3 class="text-base font-bold text-slate-100">Select Intelligent Cropping or Margins</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Drop the image into EtsyArtPacker. Use <strong>Center Anchor</strong> for abstracts and symmetrical compositions. Use <strong>Top Anchor</strong> for portraits to protect faces from being cropped. If you want zero image loss, choose <strong>Contain with Margin</strong> to add clean borders.
+          </p>
+        </div>
+
+        <div class="p-5 rounded-2xl border border-slate-800 bg-slate-900/40 space-y-3">
+          <div class="w-8 h-8 rounded-lg bg-purple-500/10 border border-purple-500/20 text-purple-400 flex items-center justify-center font-bold text-sm">
+            3
+          </div>
+          <h3 class="text-base font-bold text-slate-100">Batch Export 300 DPI Packages Locally</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Click <strong>Generate & Download</strong>. The client-side engine calculates aspect ratios, resamples with high-quality bilinear interpolation, injects physical 300 DPI JFIF headers, and bundles all 5 files alongside a buyer printing instruction sheet in seconds.
+          </p>
+        </div>
+
+        <div class="p-5 rounded-2xl border border-slate-800 bg-slate-900/40 space-y-3">
+          <div class="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-sm">
+            4
+          </div>
+          <h3 class="text-base font-bold text-slate-100">Upload to Etsy Listing Digital Files</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Attach the downloaded ZIP file to your Etsy listing. If the combined ZIP exceeds Etsy's 20MB per-file upload ceiling, simply extract the ZIP on your machine and upload the 5 individual JPG files directly—each single image is automatically optimized under 20MB.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: In-Depth FAQ (Visible DOM matching Schema.org JSON-LD) -->
+    <section class="mt-16 border-t border-slate-800/80 pt-12">
+      <div class="text-center max-w-2xl mx-auto mb-8">
+        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-400 text-xs font-semibold mb-3">
+          ❓ Frequently Asked Questions
+        </div>
+        <h2 class="text-2xl font-bold text-white tracking-tight mb-2">
+          Frequently Asked Questions
+        </h2>
+        <p class="text-xs text-slate-400 leading-relaxed">
+          Everything you need to know about wall art aspect ratios, DPI metadata, privacy, and Etsy file delivery.
+        </p>
+      </div>
+
+      <div class="space-y-4 max-w-3xl mx-auto">
+        <div class="p-5 rounded-2xl border border-slate-800 bg-slate-900/40 space-y-2">
+          <h3 class="text-sm font-bold text-slate-200">Are my high-resolution art files uploaded to your server?</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            No. EtsyArtPacker runs 100% locally inside your browser using HTML5 Canvas. Your artwork never touches an external server, ensuring complete copyright privacy, zero bandwidth limits, and total asset security.
+          </p>
+        </div>
+
+        <div class="p-5 rounded-2xl border border-slate-800 bg-slate-900/40 space-y-2">
+          <h3 class="text-sm font-bold text-slate-200">Does this tool inject genuine 300 DPI metadata required by Etsy?</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Yes. Many basic tools change pixel dimensions without updating the EXIF/JFIF DPI headers, leading to print shop rejections. EtsyArtPacker automatically recalculates physical pixel dimensions and injects standard 300 DPI headers into every JPEG output.
+          </p>
+        </div>
+
+        <div class="p-5 rounded-2xl border border-slate-800 bg-slate-900/40 space-y-2">
+          <h3 class="text-sm font-bold text-slate-200">Which 5 ratios are generated in the downloadable ZIP?</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            You receive 5 neatly named files for the standard gallery ratios: <strong>2:3</strong> (up to 16x24in @300 DPI, 24x36in @200 DPI), <strong>3:4</strong> (up to 18x24in), <strong>4:5</strong> (up to 16x20in), <strong>ISO standard</strong> (A2 @300 DPI, A1 @212 DPI), and <strong>11:14</strong> (popular standalone frame size).
+          </p>
+        </div>
+
+        <div class="p-5 rounded-2xl border border-slate-800 bg-slate-900/40 space-y-2">
+          <h3 class="text-sm font-bold text-slate-200">Can I use the generated files commercially on Etsy or Shopify?</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Yes. You retain full commercial rights to all resized files generated through the tool. No watermarks are added, and no royalties or attribution are required.
+          </p>
+        </div>
+
+        <div class="p-5 rounded-2xl border border-slate-800 bg-slate-900/40 space-y-2">
+          <h3 class="text-sm font-bold text-slate-200">What should I do if the downloaded ZIP exceeds Etsy's 20MB file limit?</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Etsy imposes a strict 20MB limit on each uploaded file. While EtsyArtPacker compresses each individual JPEG below 20MB, bundling all 5 ultra-high-resolution images into a single ZIP may occasionally exceed 20MB. Simply unzip the package on your computer and upload the 5 individual JPEG files directly to your Etsy listing.
+          </p>
+        </div>
+
+        <div class="p-5 rounded-2xl border border-slate-800 bg-slate-900/40 space-y-2">
+          <h3 class="text-sm font-bold text-slate-200">Why do fine art prints require 300 DPI (PPI)?</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            At 300 pixels per inch, human eyes cannot discern individual ink dots at normal gallery viewing distances (12 to 24 inches). Print-on-demand services like Printify, Gelato, and Gooten require 300 DPI files to prevent blurry or pixelated art prints and minimize buyer return requests.
+          </p>
+        </div>
+      </div>
+    </section>
   </main>
 
   <!-- Footer -->
@@ -683,9 +875,9 @@
           statusBorder = 'border-amber-500/30 bg-amber-950/20';
           qualityText = 'Standard Commercial Print';
         } else {
-          statusBadge = '<span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-rose-500/15 text-rose-400 border border-rose-500/20">' + calculatedPpi + ' PPI · Low</span>';
+          statusBadge = '<span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-rose-500/15 text-rose-400 border border-rose-500/20">' + calculatedPpi + ' PPI · 300 DPI Injected</span>';
           statusBorder = 'border-rose-500/30 bg-rose-950/20';
-          qualityText = 'AI Upscale Recommended';
+          qualityText = 'Large Print (AI Upscale Recommended)';
         }
 
         return `
@@ -1034,7 +1226,7 @@
       function qualityTag(ppi) {
         if (ppi >= 300) return `(300+ PPI - Flawless Gallery Master)`;
         if (ppi >= 200) return `(${ppi} PPI - Standard Print Quality)`;
-        return `(${ppi} PPI - Low Resolution, Viewing distance > 4 feet)`;
+        return `(${ppi} PPI - 300 DPI Injected, Large Print / Viewing distance > 4 feet)`;
       }
 
       return `=====================================================

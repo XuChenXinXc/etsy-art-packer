@@ -474,7 +474,7 @@ def test_app_state_classes_have_css_rules(app_page, test_images):
     missing |= missing_css_rules(app_page)
     load_image(app_page, test_images / "tiers.png")
     expect(app_page.locator("#preflight-grid > div")).to_contain_text(
-        ["Flawless", "Good", "Low"]
+        ["Flawless", "Good", "300 DPI Injected"]
     )
     missing |= missing_css_rules(app_page)
     # 直接切到处理中状态，覆盖 updateControls() 切换的 class。
